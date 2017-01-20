@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="96.0" prefWidth="1024.0" style="-fx-background-color: #3f51b5;">
+         <children>
+            <Label alignment="CENTER" layoutX="22.0" prefHeight="96.0" prefWidth="414.0" style="-fx-font-size: 24;" stylesheets="@../../fonts/AMDRTG.css" text="Notes" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold Italic" size="36.0" />
+               </font>
+            </Label>
+            <Button id="userIcon" fx:id="userIcon" layoutX="926.0" layoutY="14.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="66.0" style="-fx-background-color: transparent;">
+               <graphic>
+                  <ImageView id="userIcon" fitHeight="60.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../image/user.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="96.0" prefHeight="673.0" prefWidth="150.0">
+         <children>
+            <ScrollPane prefHeight="673.0" prefWidth="150.0">
+               <content>
+                  <AnchorPane prefHeight="673.0" prefWidth="135.0">
+                     <children>
+                        <Button fx:id="addFolder" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0">
+                           <graphic>
+                              <ImageView fitHeight="40.0" fitWidth="114.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../image/plus.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button layoutX="14.0" layoutY="84.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Personal">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="14.0" layoutY="154.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="OOPP">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="14.0" layoutY="224.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="IP Net">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="14.0" layoutY="294.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="DMID">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Button>
+                        <Button layoutX="14.0" layoutY="364.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Law &amp; Ethics">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="150.0" layoutY="96.0" prefHeight="673.0" prefWidth="874.0">
+         <children>
+            <Button fx:id="addNote" mnemonicParsing="false" prefHeight="44.0" prefWidth="78.0" style="-fx-background-color: transparent;">
+               <graphic>
+                  <ImageView fitHeight="61.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../image/add%20note.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <AnchorPane fx:id="pinnedNote" layoutY="67.0" prefHeight="174.0" prefWidth="874.0">
+               <children>
+                  <Button layoutX="771.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Pinned">
+                     <graphic>
+                        <ImageView fitHeight="46.0" fitWidth="33.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../image/pin.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="note1" layoutX="14.0" mnemonicParsing="false">
+                     <graphic>
+                        <Pane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label prefHeight="33.0" prefWidth="200.0" text="Note 1">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextArea layoutY="33.0" prefHeight="168.0" prefWidth="200.0" />
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </Button>
+                  <Button layoutX="255.0" mnemonicParsing="false">
+                     <graphic>
+                        <Pane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label prefHeight="33.0" prefWidth="200.0" text="Note 2">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextArea layoutY="33.0" prefHeight="168.0" prefWidth="200.0" />
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="normalNote" layoutX="-7.0" layoutY="277.0" prefHeight="394.0" prefWidth="881.0">
+               <children>
+                  <Button layoutX="816.0" layoutY="-1.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Others" />
+                  <Button layoutX="23.0" layoutY="15.0" mnemonicParsing="false">
+                     <graphic>
+                        <Pane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label prefHeight="33.0" prefWidth="200.0" text="Note 3">
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </Label>
+                              <TextArea layoutY="33.0" prefHeight="168.0" prefWidth="200.0" />
+                           </children>
+                        </Pane>
+                     </graphic>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

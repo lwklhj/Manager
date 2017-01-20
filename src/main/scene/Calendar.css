@@ -1,0 +1,15 @@
+.label {
+    -fx-background-color: #607d8b;
+    -fx-text-fill: white;
+    -fx-max-width: 131px;
+    -fx-max-height: 89px;
+    -fx-alignment: center;
+    -fx-font-family: "Roboto Light";
+}
+
+#calGrid > .button {
+    -fx-max-width: 131px;
+    -fx-max-height: 89px;
+    -fx-font-family: "Roboto Light";
+    -fx-background-color: #eceff1;
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="398.0" prefWidth="400.0" style="-fx-background-color: #e8eaf6;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.LoginController">
+   <children>
+      <Pane prefHeight="102.0" prefWidth="400.0" style="-fx-background-color: #3f51b5;">
+         <children>
+            <Label alignment="CENTER" prefHeight="102.0" prefWidth="400.0" style="-fx-font-size: 20px;" stylesheets="@../../fonts/AMDRTG.css" text="Personal manager" textFill="WHITE">
+               <font>
+                  <Font name="Arial" size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Label layoutX="62.0" layoutY="125.0" stylesheets="@../../fonts/Roboto-Light.css" text="Name / ID" />
+      <Label layoutX="62.0" layoutY="194.0" stylesheets="@../../fonts/Roboto-Light.css" text="Password" />
+      <TextField fx:id="nameTextField" layoutX="62.0" layoutY="152.0" prefHeight="31.0" prefWidth="276.0" stylesheets="@../../fonts/Roboto-Light.css" />
+      <PasswordField fx:id="passTextField" layoutX="62.0" layoutY="224.0" prefHeight="31.0" prefWidth="276.0" stylesheets="@../../fonts/Roboto-Light.css" />
+      <Button layoutX="62.0" layoutY="333.0" mnemonicParsing="false" onAction="#login" prefHeight="31.0" prefWidth="276.0" style="-fx-background-color: #3f51b5;" stylesheets="@../../fonts/Roboto-Light.css" text="Login" textFill="WHITE" />
+      <Button layoutX="248.0" layoutY="286.0" mnemonicParsing="false" onAction="#signUp" prefHeight="31.0" prefWidth="90.0" style="-fx-background-color: #3f51b5;" stylesheets="@../../fonts/Roboto-Light.css" text="Sign Up" textFill="WHITE" />
+      <Label fx:id="wrongText" alignment="CENTER" layoutY="265.0" prefHeight="21.0" prefWidth="400.0" stylesheets="@../../fonts/Roboto-Light.css" textFill="#d50000" />
+      <CheckBox layoutX="62.0" layoutY="291.0" mnemonicParsing="false" stylesheets="@../../fonts/Roboto-Light.css" text="Remember me" />
+   </children>
+</AnchorPane>

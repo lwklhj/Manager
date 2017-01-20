@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="96.0" prefWidth="1024.0" style="-fx-background-color: #3f51b5;">
+         <children>
+            <Label fx:id="titleOfNote" alignment="CENTER" layoutX="52.0" layoutY="-1.0" prefHeight="96.0" prefWidth="414.0" style="-fx-font-size: 24;" stylesheets="@../../fonts/AMDRTG.css" text="Note 1" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold Italic" size="36.0" />
+               </font>
+            </Label>
+            <Button id="userIcon" fx:id="userIcon" layoutX="926.0" layoutY="14.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="66.0" style="-fx-background-color: transparent;">
+               <graphic>
+                  <ImageView id="userIcon" fitHeight="60.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../image/user.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutY="-1.0" mnemonicParsing="false" prefHeight="96.0" prefWidth="88.0" style="-fx-background-color: transparent;">
+               <graphic>
+                  <ImageView fitHeight="52.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../image/backArrow.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutX="736.0" layoutY="21.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="65.0" style="-fx-background-color: transparent;">
+               <graphic>
+                  <ImageView fitHeight="43.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../image/pinned.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutX="825.0" layoutY="21.0" mnemonicParsing="false" style="-fx-background-color: transparent;">
+               <graphic>
+                  <ImageView fitHeight="42.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../image/attachment.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="96.0" prefHeight="673.0" prefWidth="1024.0">
+         <children>
+            <WebView fx:id="noteContent" layoutX="270.0" layoutY="193.0" prefHeight="673.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children></AnchorPane>
+   </children>
+</AnchorPane>

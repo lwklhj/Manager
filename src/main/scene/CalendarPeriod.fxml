@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #eceff1;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.CalendarPeriodController">
+   <children>
+      <Button layoutX="505.0" layoutY="355.0" mnemonicParsing="false" onAction="#addTask" style="-fx-background-color: #455a64; -fx-text-fill: #ffffff;" stylesheets="@../../fonts/Roboto-Light.css" text="Add Task" />
+      <ScrollPane layoutY="50.0" prefHeight="295.0" prefWidth="600.0" />
+      <Label fx:id="dateLabel" layoutX="22.0" layoutY="14.0" stylesheets="@../../fonts/AMDRTG.css" text="placeholder" />
+   </children>
+</AnchorPane>

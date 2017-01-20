@@ -1,0 +1,15 @@
+.toggle-button{
+ -fx-background-color:transparent;
+
+}
+.toggle-button:selected{
+    -fx-background-color:#7986cb;
+
+
+}
+#userIcon{
+    -fx-background-color:transparent;
+}
+#userIcon:hover{
+    -fx-background-color:#9fa8da;
+}
