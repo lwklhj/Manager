@@ -1,7 +1,5 @@
 package entity;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import java.util.GregorianCalendar;
 
 /**
@@ -10,12 +8,14 @@ import java.util.GregorianCalendar;
 public class Calendar {
     private GregorianCalendar date = new GregorianCalendar();
 
+    private final String[] dayOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
     private final String[] monthOfYear = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
     private final int currentDay = date.get(GregorianCalendar.DAY_OF_MONTH);
     private final int currentMonth = date.get(GregorianCalendar.MONTH);
     private final int currentYear = date.get(GregorianCalendar.YEAR);
 
+    
     private int selectedDay = date.get(GregorianCalendar.DAY_OF_MONTH);
     private int selectedMonth = date.get(GregorianCalendar.MONTH);
     private int selectedYear = date.get(GregorianCalendar.YEAR);
@@ -23,9 +23,19 @@ public class Calendar {
     private int firstDay;
     private int lastDayOfMonth;
 
-    private String currentMode = "DayPicker";
+    
+    public int getCurrentDay() {
+        return currentDay;
+    }
 
-    //Accessor & Mutator methods from here
+    public int getCurrentMonth() {
+        return currentMonth;
+    }
+
+    public int getCurrentYear() {
+        return currentYear;
+    }
+
     public int getSelectedDay() {
         return date.get(GregorianCalendar.DAY_OF_MONTH);
     }
@@ -35,11 +45,13 @@ public class Calendar {
     }
 
     public int getSelectedMonth() {
-        return (date.get(GregorianCalendar.MONTH) + 1);
+        
+        
+        return date.get(GregorianCalendar.MONTH);
     }
 
     public void setSelectedMonth(int selectedMonth) {
-        date.set(GregorianCalendar.MONTH, selectedMonth - 1);
+        date.set(GregorianCalendar.MONTH, selectedMonth);
     }
 
     public int getSelectedYear() {
@@ -49,7 +61,15 @@ public class Calendar {
     public void setSelectedYear(int selectedYear) {
         date.set(GregorianCalendar.YEAR, selectedYear);
     }
-    //end here
+
+    
+    public String[] getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public String[] getMonthOfYear() {
+        return  monthOfYear;
+    }
 
     public int getFirstDay() {
         date.set(GregorianCalendar.DAY_OF_MONTH, 1);
@@ -60,31 +80,42 @@ public class Calendar {
         return lastDayOfMonth = date.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
     }
 
-    public void setCurrentMode(String currentMode) {
-        this.currentMode = currentMode;
-    }
-
-    public String getCurrentMode() {
-        return currentMode;
-    }
-
     public String getStringDate() {
         String x = monthOfYear[date.get(GregorianCalendar.MONTH)];
         String StringDate = x + " " + date.get(GregorianCalendar.YEAR);
         return StringDate;
     }
 
-    public void setSelectedButton (int tempNum) {
-        if(currentMode == "DayPicker") {
-            int x = date.get(GregorianCalendar.MONTH);
-            x += tempNum;
-            date.set(GregorianCalendar.MONTH, x);
-        }
+    /*public void setSelectedButton (int num) {
+        int x;
+        switch(currentMode) {
 
-        else if(currentMode == "MonthPicker") {
-            int x = date.get(GregorianCalendar.YEAR);
-            x += tempNum;
-            date.set(GregorianCalendar.YEAR, x);
+            case "DayPicker":
+                x = date.get(GregorianCalendar.MONTH);
+                x += num;
+                date.set(GregorianCalendar.MONTH, x);
+                break;
+
+            case "MonthPicker":
+                x = date.get(GregorianCalendar.YEAR);
+                x += num;
+                date.set(GregorianCalendar.YEAR, x);
+                break;
+
         }
+    }*/
+
+    public String arrangeDate (int year, int month,  int day) {
+        String dayTemp = day + "";
+        if(day < 10)
+            dayTemp = "0" + day;
+
+        String monthTemp = month + "";
+        if(month < 10)
+            monthTemp = "0" + month;
+
+        String date = year + "-" + monthTemp + "-" + dayTemp;
+        return date;
     }
+
 }

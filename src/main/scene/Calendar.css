@@ -11,5 +11,7 @@
     -fx-max-width: 131px;
     -fx-max-height: 89px;
     -fx-font-family: "Roboto Light";
-    -fx-background-color: #eceff1;
+    -fx-background-color: transparent;
+    -fx-border-radius: 0 0 0 0;
+    -fx-background-radius: 0 0 0 0;
 }

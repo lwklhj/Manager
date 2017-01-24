@@ -5,7 +5,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
-import database.LoginAccess;
+import database.UserDA;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 
 public class LoginController implements Initializable {
 
-    private LoginAccess loginAccess = new LoginAccess();
+    private UserDA userDA = new UserDA();
 
     private String password="";
     private String username="";
@@ -40,7 +40,7 @@ public class LoginController implements Initializable {
     }
     @FXML
     void login(ActionEvent event) throws SQLException {
-        if(loginAccess.checkLogin(nameTextField.getText(), passTextField.getText()) == true){
+        if(userDA.checkLogin(nameTextField.getText(), passTextField.getText()) == true){
             Parent p = null;
             try {
                 p = FXMLLoader.load(getClass().getResource("MainScene.fxml"));

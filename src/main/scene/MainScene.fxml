@@ -12,88 +12,46 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" stylesheets="@mainScene.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.MainSceneController">
-   <children>
-      <BorderPane layoutX="481.0" layoutY="250.0" prefHeight="768.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <left>
-            <VBox prefHeight="668.0" prefWidth="107.0" style="-fx-background-color: #9fa8da;" BorderPane.alignment="CENTER">
-               <children>
-                  <ToggleButton mnemonicParsing="false" onAction="#calendarClick" prefHeight="99.0" prefWidth="107.0">
-                     <graphic>
-                        <ImageView fitHeight="79.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../image/calendar.png" />
-                           </image>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="917.0" stylesheets="@mainScene.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.MainSceneController">
+    <children>
+        <AnchorPane prefHeight="96.0" prefWidth="917.0" style="-fx-background-color: #3f51b5;">
+            <children>
+                <Button fx:id="homeButton" layoutX="10.0" layoutY="16.0" mnemonicParsing="false" onAction="#homeClick" style="-fx-background-color: transparent;">
+               <graphic>
+                        <ImageView fitHeight="55.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../image/home.png" />
+                            </image>
                         </ImageView>
-                     </graphic>
-                     <toggleGroup>
-                        <ToggleGroup fx:id="mainSelect" />
-                     </toggleGroup>
-                  </ToggleButton>
-                  <ToggleButton mnemonicParsing="false" onAction="#taskListClick" prefHeight="99.0" prefWidth="107.0" toggleGroup="$mainSelect">
-                     <graphic>
-                        <ImageView fitHeight="79.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../image/task-complete.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </ToggleButton>
-                  <ToggleButton mnemonicParsing="false" onAction="#noteClick" prefHeight="99.0" prefWidth="107.0" toggleGroup="$mainSelect">
-                     <graphic>
-                        <ImageView fitHeight="79.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../image/notepad.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </ToggleButton>
-                  <ToggleButton mnemonicParsing="false" onAction="#emailClick" prefHeight="99.0" prefWidth="107.0" toggleGroup="$mainSelect">
-                     <graphic>
-                        <ImageView fitHeight="79.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../image/envelope.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </ToggleButton>
-                  <ToggleButton mnemonicParsing="false" onAction="#timerClick" prefHeight="99.0" prefWidth="107.0" toggleGroup="$mainSelect">
-                     <graphic>
-                        <ImageView fitHeight="79.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../image/Watches.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </ToggleButton>
-               </children>
-            </VBox>
-         </left>
-         <center>
-            <AnchorPane prefHeight="632.0" prefWidth="883.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Pane fx:id="content" prefHeight="672.0" prefWidth="917.0" style="-fx-background-color: #e8eaf6;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-               </children></AnchorPane>
-         </center>
-         <top>
-            <AnchorPane prefHeight="96.0" prefWidth="1024.0" style="-fx-background-color: #3f51b5;" BorderPane.alignment="CENTER">
-               <children>
-                  <Label alignment="CENTER" layoutX="22.0" prefHeight="96.0" prefWidth="414.0" style="-fx-font-size: 24;" stylesheets="@../../fonts/AMDRTG.css" text="Personal Manager" textFill="WHITE">
-                     <font>
+               </graphic>
+                </Button>
+                <Label layoutX="85.0" layoutY="1.0" prefHeight="96.0" prefWidth="392.0" style="-fx-font-size: 24;" stylesheets="@../../fonts/AMDRTG.css" text="Personal Manager" textFill="WHITE">
+                    <font>
                         <Font name="Arial Bold Italic" size="36.0" />
-                     </font>
-                  </Label>
-                  <Button id="userIcon" fx:id="userIcon" layoutX="926.0" layoutY="14.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="66.0">
-                     <graphic>
-                        <ImageView id="userIcon" fitHeight="60.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../image/user.png" />
-                           </image>
+                    </font>
+                </Label>
+            <Button id="userIcon" fx:id="userIcon1" layoutX="747.0" layoutY="15.0" mnemonicParsing="false" onAction="#profileClick" prefHeight="31.0" prefWidth="66.0">
+               <graphic>
+                  <ImageView id="userIcon" fitHeight="60.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../image/user.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+                <Button layoutX="825.0" layoutY="15.0" mnemonicParsing="false" onAction="#logoutClick" prefHeight="31.0" prefWidth="66.0" style="-fx-background-color: transparent;">
+                    <graphic>
+                        <ImageView fitHeight="60.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../image/logout.png" />
+                            </image>
                         </ImageView>
-                     </graphic></Button>
-               </children>
-            </AnchorPane>
-         </top>
-      </BorderPane>
-   </children>
+                    </graphic></Button>
+            </children>
+        </AnchorPane>
+        <AnchorPane fx:id="content" layoutY="96.0" prefHeight="672.0" prefWidth="917.0">
+            <children>
+                <Label layoutX="359.0" layoutY="326.0" text="Click the home button to start" />
+            </children></AnchorPane>
+    </children>
 </AnchorPane>
