@@ -35,9 +35,6 @@ public class LoginAccess {
         if(!sqlRetrieveData.retriveData(SQL).next()) {
             loginCheck = false;
         }
-
-        System.out.println("Login successful? " + loginCheck);
-
         sqlRetrieveData.closeConnection();
         return loginCheck;
     }

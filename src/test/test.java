@@ -15,32 +15,39 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import java.util.Calendar;
+
+import game.screen.MainScreen;
+import game.util.SystemConfiguration;
+import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import util.MusicPlayer;
 import util.Util;
 
 /**
  * Created by hehef on 12/18/2016.
  */
-public class test {
-    private static String[] daysName={"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};;
+public class test extends Application{
+
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Group group=new Group();
+        Scene  scene=new Scene(group,SystemConfiguration.getWidth(),SystemConfiguration.getHeight());
+        MainScreen ms=new MainScreen(SystemConfiguration.getWidth(),SystemConfiguration.getHeight());
+        group.getChildren().add(ms);
+        ms.start();
+        ms.initiation();
+
+
+
+        scene.setFill(Color.BLACK);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
     public static void main(String[] args) {
-        getDays();
-
-
-        //dayof week
-        //today yesterday 1 more day 1 more day Last week,older
+        launch(args);
     }
-    private static void getDays(){
-        //today yesterday this week,last week ,older
-        ArrayList<Date> dates=new ArrayList<Date>();
-        Calendar calendar=Calendar.getInstance();
-
-        for(int i=calendar.get(Calendar.DAY_OF_WEEK);i>=0;i--){
-            System.out.println("index "+calendar.get(Calendar.DAY_OF_WEEK)+"  "+daysName[calendar.get(Calendar.DAY_OF_WEEK)-1]);
-            calendar.add(Calendar.DATE,-1);
-
-        }
-
-    }
-
 }

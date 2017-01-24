@@ -10,20 +10,9 @@ import java.sql.SQLException;
  */
 public class poro {
     public static void main(String[] args) {
-        SqlRetrieveData sqlRetrieveData = new SqlRetrieveData();
-        sqlRetrieveData.openConnection();
-        //sqlAccess.insertData("user", "Hefei", 'M', "1720199L", "lol@malwao.com");
-        //sqlAccess.closeConnection();
-        ResultSet rs=sqlRetrieveData.retriveData("SELECT name,gender,adminNo,email FROM User");
-
-
-        try {
-            while(rs.next()){
-                System.out.println(rs.getString("name")+"\t"+rs.getString("gender") +"\t" + rs.getString("adminNo") + "\t" + rs.getString("email"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        String s="hello my butt'y";
+        s=s.replace("'","''");
+        System.out.println("SELECT subject,sender,sentDate,cc,content FROM email WHERE adminNo="+"160244j");
 
     }
 }

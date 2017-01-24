@@ -1,8 +1,13 @@
 package main.scene;
 
+import database.SqlDeleteData;
+import database.SqlRetrieveData;
+
 import email.RetriveEmail;
 import entity.Email;
+import entity.User;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -24,6 +29,8 @@ import javax.mail.internet.InternetAddress;
 import javax.swing.plaf.nimbus.State;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.util.*;
 
@@ -31,6 +38,7 @@ import java.util.*;
  * Created by hehef on 12/6/2016.
  */
 public class EmailController implements Initializable{
+    User user;
     @FXML
     private ListView<String> listView;//for display in ui
     ////for email from inbox of official server,only display title
@@ -38,12 +46,12 @@ public class EmailController implements Initializable{
 
     private ObservableList<Message> inboxMessages;
     //list for important email from own server,only for title
-    private ObservableList<Message> importantMessages=FXCollections.observableArrayList();//for message main body
+    private ObservableList<Email> importantMessages=FXCollections.observableArrayList();//for message main body
 
     // to check wether sychrom
     private boolean isSynchronize=false;
 
-    private enum State{INBOX,IMPORTANT};
+    private enum State{INBOX,IMPORTANT}
     private State currentState;
 
     private String[] daysName={"Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
@@ -53,6 +61,7 @@ public class EmailController implements Initializable{
     //today yesterday,2 more day last week(start end) older==last week enddate
     private ArrayList<Date> dateForListRetrive=new ArrayList<Date>();
     private ArrayList<Integer> dateStartIndex=new ArrayList<Integer>();
+    private int currButIndex;
 
     @FXML
     private ToolBar dateSelectorBar;
@@ -68,11 +77,34 @@ public class EmailController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        user=new User();
+        user.setAdminNo("160244J");
+        listView.setOnMouseClicked(events -> setIndex());
 
-        listView.setOnMouseClicked(event -> openContextMenu(inboxMessages.size()-1- listView.getSelectionModel().getSelectedIndex()));
+
+        /*importantMessages.addListener(new ListChangeListener<Email>() {
+            @Override
+            public void onChanged(Change<? extends Email> c) {
+                displayImportantListContent(importantMessages);
+            }
+        });*/
         important(new ActionEvent());
         currentState=State.IMPORTANT;
 
+    }
+    //get different index in diffent list
+    private void setIndex(){
+        int index=0;
+        switch(currentState){
+            case INBOX:
+                index=inboxMessages.size()-1-listView.getSelectionModel().getSelectedIndex();
+               break;
+            case IMPORTANT:
+                index=importantMessages.size()-1-listView.getSelectionModel().getSelectedIndex();
+
+                break;
+        }
+        openContextMenu(index);
     }
     private void openContextMenu(int index){
         ContextMenu contextMenu=new ContextMenu();
@@ -83,35 +115,105 @@ public class EmailController implements Initializable{
 
             }
         });
-        MenuItem open=new MenuItem("open");
-        open.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                openMail(inboxMessages.get(index));
 
-            }
-        });
+        switch(currentState){
+            case INBOX:
+                MenuItem open=new MenuItem("open");
+                open.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        openMail(getEmailObject(inboxMessages.get(index)));
 
-        MenuItem add=new MenuItem("add to Important");
-        add.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                importantMessages.add(inboxMessages.get(index));
-            }
-        });
-        contextMenu.getItems().addAll(open,add);
+
+                    }
+                });
+                MenuItem add=new MenuItem("add to Important");
+                add.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        Email email=getEmailObject(inboxMessages.get(index));
+                        email.storeData(user.getAdminNo());
+                        importantMessages.add(email);
+                        //save to data base
+
+                    }
+                });
+                contextMenu.getItems().addAll(open,add);
+
+                break;
+            case IMPORTANT:
+                MenuItem open2=new MenuItem("open");
+                open2.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        openMail(importantMessages.get(index));
+
+
+                    }
+                });
+                MenuItem delete=new MenuItem("Delete");
+                delete.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        //delete data
+                        Email email=importantMessages.get(index);
+                        SqlDeleteData sql=new SqlDeleteData();
+                        sql.openConnection();
+                        sql.deleteTableRow(String.format("DELETE FROM email WHERE adminNo=\"%s\" AND subject=\"%s\"",user.getAdminNo(),email.getSubject()));
+                        sql.closeConnection();
+                        importantMessages.remove(email);
+                        displayImportantListContent(importantMessages);
+
+                    }
+                });
+                contextMenu.getItems().addAll(open2,delete);
+                break;
+        }
+
+
         listView.setContextMenu(contextMenu);
 
     }
-    //open email in new window
+
 
     @FXML
     void inbox(ActionEvent event) {
+
         retriveMail();
         displayListContent(inboxMessages);
         if(!inboxButton.isSelected())
             inboxButton.setSelected(true);
         currentState=State.INBOX;
+    }
+
+    @FXML
+    void important(ActionEvent event) {
+        //load date from data base
+        importantMessages.clear();
+        SqlRetrieveData sql=new SqlRetrieveData();
+        sql.openConnection();
+        ResultSet rs=sql.retriveData("SELECT subject,sender,sentDate,cc,content FROM email WHERE adminNo=\""+user.getAdminNo()+"\"");
+        sql.closeConnection();
+        try {
+
+            while(rs.next()){
+
+                Email email=new Email(
+                        rs.getString("subject"),
+                        rs.getString("sender"),
+                        rs.getDate("sentDate"),
+                        rs.getString("cc"),
+                        rs.getString("content"));
+                importantMessages.add(email);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        displayImportantListContent(importantMessages);
+        importantButton.setSelected(true);
+        currentState=State.IMPORTANT;
+        //listView.getContextMenu().getItems().remove(1);
     }
 
     @FXML
@@ -128,12 +230,7 @@ public class EmailController implements Initializable{
 
      }
 
-    @FXML
-    void important(ActionEvent event) {
-        displayListContent(importantMessages);
-        importantButton.setSelected(true);
-        currentState=State.IMPORTANT;
-    }
+
     //get all message subject from message to list and display it
     private void displayListContent(ObservableList<Message> message){
         displayList.clear();
@@ -148,7 +245,17 @@ public class EmailController implements Initializable{
             listView.setItems(displayList);
         }
     }
+    private void displayImportantListContent(ObservableList<Email> emails){
+        displayList.clear();
+        if(emails!=null) {
+            for (int i = emails.size() - 1; i >= 0; i--) {
+                    displayList.add(emails.get(i).getSubject());
+            }
+            listView.setItems(displayList);
+        }
+    }
 
+    //email get and init button bar
     private void retriveMail(){
         if(isSynchronize==false) {
             //to get user id and password
@@ -196,14 +303,16 @@ public class EmailController implements Initializable{
         initDateSelectBar();
 
     }
-    private void openMail(Message message){
+
+    //open email object in new window
+    private void openMail(Email email){
         try {
             Stage emailContentStage=new Stage();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("emailContent.fxml"));
             Parent root=loader.load();//call initiable method during load
             EmailContentController ctl=loader.<EmailContentController>getController();
 
-            ctl.setEmail(getEmailObject(message));//pass message to another stage
+            ctl.setEmail(email);//pass message to another stage
             Scene scene=new Scene(root);
             emailContentStage.setScene(scene);
             emailContentStage.show();
@@ -211,6 +320,7 @@ public class EmailController implements Initializable{
             e.printStackTrace();
         }
     }
+
     private Email getEmailObject(Message message){
         Email email=new Email();
 
@@ -223,7 +333,10 @@ public class EmailController implements Initializable{
             email.setSender(address);
             Address[] receipients=message.getAllRecipients();
             String receipientText="";
-            for(Address add:receipients) receipientText+=add.toString()+",";
+            for(Address add:receipients){
+
+                receipientText+=add.toString().replace("\"","")+",";
+            }
             email.setCc(receipientText);
             email.setSentDate(message.getSentDate());
             StringBuffer buffer=new StringBuffer();
@@ -258,27 +371,28 @@ public class EmailController implements Initializable{
 
         System.out.println("type content "+contentType);
         if(part.isMimeType("text/plain")){
-            System.out.println("text/plain");
+           // System.out.println("text/plain");
             buffer.append(part.getContent().toString());
 
         }else if(part.isMimeType("text/html")){
-            System.out.println("text/html");
+            //System.out.println("text/html");
             buffer.append(part.getContent().toString());
 
         }else if(part.isMimeType("multipart/*")){
-            System.out.println("multipart/*");
+           // System.out.println("multipart/*");
             Multipart multipart=(Multipart)part.getContent();
             for(int i=0;i<multipart.getCount();i++){
                 getMailContent(multipart.getBodyPart(i),buffer);
             }
         }else if(part.isMimeType("message/rfc822")) {
-            System.out.println("message/rfc822");
+            //System.out.println("message/rfc822");
             getMailContent((Part) part.getContent(),buffer);
 
         }
 
     }
 
+    //date button
     private void initDateSelectBar() {
         //remove all button
         dateSelectorBar.getItems().clear();
@@ -287,7 +401,7 @@ public class EmailController implements Initializable{
 
         ToggleButton today = new ToggleButton("Today");
         today.setToggleGroup(toolBarGroup);
-        today.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(20), new BorderWidths(1))));
+        today.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(10), new BorderWidths(1))));
         dateSelectorBar.getItems().add(today);
         dateForListRetrive.add(calendar.getTime());
         calendar.add(Calendar.DATE, -1);
@@ -324,9 +438,15 @@ public class EmailController implements Initializable{
         older.setToggleGroup(toolBarGroup);
         older.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(20), new BorderWidths(1))));
         dateSelectorBar.getItems().add(older);
+        for(Date d:dateForListRetrive) util.Util.prln(d.toString());
 
 
         //parse inboxlist to get each day or week date in index
+    }
+
+
+    public void setUser(User user){
+        this.user=user;
     }
 
 

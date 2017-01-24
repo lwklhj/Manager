@@ -27,5 +27,16 @@ public class SqlDeleteData extends SqlAccess{
         }
 
     }
+    public void deleteTableRow(String query){
+        Statement statement=getStatement();
+        try{
+            System.out.println(query);
+            statement.executeUpdate(query);
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+    }
 
 }
