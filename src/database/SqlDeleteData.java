@@ -19,7 +19,7 @@ public class SqlDeleteData extends SqlAccess{
     public void deleteTableRow(String tableName,String columnLabel,String operator,String value){
         Statement statement=getStatement();
         try{
-            ///System.out.println("DELETE FROM "+tableName+" WHERE "+columnLabel+" "+operator+" "+value);
+            System.out.println("DELETE FROM "+tableName+" WHERE "+columnLabel+" "+operator+" "+value);
             statement.executeUpdate("DELETE FROM "+tableName+" WHERE "+columnLabel+" "+operator+" "+value );
 
         }catch(SQLException e){

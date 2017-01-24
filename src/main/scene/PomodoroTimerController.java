@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.shape.Arc;
+import util.MusicPlayer;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,18 +13,23 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import static java.lang.Integer.parseInt;
-import static java.lang.Integer.toString;
 
 /**
  * Created by Liu Woon Kit on 13/12/2016.
+ * Rewritten by Liu Woon Kit on 20/1/2017
  */
+
 public class PomodoroTimerController implements Initializable {
+    private MusicPlayer musicPlayer;
     private Timer timer;
-    private int minutes = 0, seconds = 0;
-    private boolean timerRunning;
+    private int minutes, seconds;
+    private boolean isTimerRunning;
 
     @FXML
-    TextField minsField, secsField;
+    private Arc arc;
+
+    @FXML
+    TextField minutesField, secondsField;
 
     @FXML
     Button timerButton;
@@ -32,53 +39,72 @@ public class PomodoroTimerController implements Initializable {
 
     }
 
+    
     public void startTimer() {
-        if (timerRunning == false) {
-            //re-instantiate object
-            timer = new Timer();
+        
+        if (isTimerRunning == true) {
+            isTimerRunning = false;
+            timerButton.setText("Start");
 
-            //set state to true
-            timerRunning = true;
+            timer.cancel();
+            
+            return;
+        }
+        else if (isTimerRunning == false) {
+            isTimerRunning = true;
             timerButton.setText("Stop");
 
+            timer = new Timer();
+        }
 
-            //get values
-            minutes = Integer.valueOf(minsField.getText());
-            seconds = Integer.valueOf(secsField.getText());
+        
+        minutes = parseInt("0" + minutesField.getText());
+        seconds = parseInt("0" + secondsField.getText());
 
-            //convert time to seconds
-            int totalTime = minutes * 60 + seconds;
+        
+        
+        if (seconds < 0)
+            seconds = 60;
 
-            //set the task to be run every 1 second (1000 millisecond)
-            timer.schedule(new TimerTask() {
-                int timeRemaining = totalTime;
+        timer.schedule(new TimerTask() {
+            final int dueTime = minutes * 60 + seconds;
+            int totalTimePassed = 0;
+            int remainingTime;
 
-                public void run() {
-                    if (timeRemaining <= 0) {
-                        System.out.println("Done");
-                        timer.cancel();
-                        playSound();
-                        timerRunning = false;
-                        timerButton.setText("Start");
-                    }
-                    else{
-                        timeRemaining--;
-                        minsField.setText(String.valueOf(timeRemaining / 60));
-                        secsField.setText(String.valueOf(timeRemaining % 60));
+            
+            double arcPercentage;
 
-                        System.out.println("Time remaining: " + (timeRemaining / 60) + " Mins " + (timeRemaining % 60) + " Secs");
-                    }
+            @Override
+            public void run() {
+                
+                if (totalTimePassed == dueTime) {
+                    isTimerRunning = false;
+                    timerButton.setText("Start");
+                    System.out.println("Done");
+
+                    timer.cancel();
+                    playSound();
                 }
-            }, 0, 1000);
-        }
-        else {
-            timer.cancel();
-            timerRunning = false;
-            timerButton.setText("Start");
-        }
+
+                
+                remainingTime = dueTime - totalTimePassed;
+                minutesField.setText(remainingTime / 60 + "");
+                secondsField.setText(remainingTime % 60 + "");
+
+                
+                arcPercentage = ((double) totalTimePassed / dueTime) * 360;
+                arc.setLength(arcPercentage);
+
+                totalTimePassed++;
+
+            }
+        }, 0, 1000);
+
     }
+
+    
     public void playSound() {
-        //sound things lol
+        musicPlayer = new MusicPlayer("Alarm.mp3");
     }
 
 }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="917.0" style="-fx-background-color: #eceff1;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TextField layoutX="308.0" layoutY="253.0" stylesheets="@../../fonts/Roboto-Light.css" />
+      <TextField layoutX="291.0" layoutY="149.0" stylesheets="@../../fonts/Roboto-Light.css" />
+      <TextField layoutX="308.0" layoutY="325.0" stylesheets="@../../fonts/Roboto-Light.css" />
+      <Button layoutX="401.0" layoutY="460.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="77.0" style="-fx-background-color: #607d8b; -fx-text-fill: #ffffff;" stylesheets="@../../fonts/Roboto-Light.css" text="Update" />
+      <Text layoutX="77.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Placeholder" />
+      <TextField layoutX="308.0" layoutY="372.0" stylesheets="@../../fonts/Roboto-Light.css" />
+      <AnchorPane prefHeight="70.0" prefWidth="917.0" style="-fx-background-color: #607d8b;">
+         <children>
+            <Label style="-fx-text-fill: #ffffff; -fx-font-size: 20px;" stylesheets="@../../fonts/AMDRTG.css" text="Edit profile" />
+         </children>
+      </AnchorPane>
+      <Label layoutX="251.0" layoutY="257.0" stylesheets="@../../fonts/Roboto-Light.css" text="Name" />
+      <Label layoutX="233.0" layoutY="154.0" stylesheets="@../../fonts/Roboto-Light.css" text="Email" />
+      <Label layoutX="233.0" layoutY="330.0" stylesheets="@../../fonts/Roboto-Light.css" text="Password" />
+      <Label layoutX="173.0" layoutY="377.0" stylesheets="@../../fonts/Roboto-Light.css" text="Confirm Password" />
+      <ImageView fitHeight="256.0" fitWidth="197.0" layoutX="28.0" layoutY="132.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../image/user_alt.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="291.0" layoutY="122.0" stylesheets="@../../fonts/AMDRTG.css" text="Contact Infomation" />
+      <Label layoutX="320.0" layoutY="225.0" stylesheets="@../../fonts/AMDRTG.css" text="Personal Particulars" />
+      <Label layoutX="240.0" layoutY="288.0" text="Gender" />
+      <Button layoutX="299.0" layoutY="460.0" mnemonicParsing="false" text="Cancel" />
+      <RadioButton fx:id="radioButOther" layoutX="464.0" layoutY="288.0" mnemonicParsing="false" selected="true" stylesheets="@../../fonts/Roboto-Light.css" text="Other">
+         <toggleGroup>
+            <ToggleGroup fx:id="genderGroup" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="radioButFemale" layoutX="380.0" layoutY="288.0" mnemonicParsing="false" stylesheets="@../../fonts/Roboto-Light.css" text="Female" toggleGroup="$genderGroup" />
+      <RadioButton fx:id="radioButMale" layoutX="309.0" layoutY="288.0" mnemonicParsing="false" stylesheets="@../../fonts/Roboto-Light.css" text="Male" toggleGroup="$genderGroup" />
+   </children>
+</AnchorPane>

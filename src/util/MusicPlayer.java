@@ -17,7 +17,7 @@ import java.io.File;
 public class MusicPlayer {
     public MusicPlayer(){
         String path=new File("src/media/xiao.mp3").getAbsolutePath();
-        //System.out.print(path);
+        System.out.print(path);
 
 
         Media media=new Media(new File(path).toURI().toString());
@@ -48,5 +48,18 @@ public class MusicPlayer {
 
     }
 
+    public MusicPlayer(String fileName) {
+        String path = new File("src/media/" +fileName).getAbsolutePath();
+        System.out.print(path);
+
+
+        Media media = new Media(new File(path).toURI().toString());
+
+
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        MediaView mediaView = new MediaView(mediaPlayer);
+    }
 
 }
