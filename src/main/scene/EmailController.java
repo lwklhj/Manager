@@ -201,7 +201,7 @@ public class EmailController implements Initializable{
                 Email email=new Email(
                         rs.getString("subject"),
                         rs.getString("sender"),
-                        rs.getDate("sentDate"),
+                        rs.getTimestamp("sentDate"),
                         rs.getString("cc"),
                         rs.getString("content"));
                 importantMessages.add(email);
@@ -308,11 +308,13 @@ public class EmailController implements Initializable{
     private void openMail(Email email){
         try {
             Stage emailContentStage=new Stage();
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("emailContent.fxml"));
             Parent root=loader.load();//call initiable method during load
             EmailContentController ctl=loader.<EmailContentController>getController();
 
             ctl.setEmail(email);//pass message to another stage
+
             Scene scene=new Scene(root);
             emailContentStage.setScene(scene);
             emailContentStage.show();
@@ -396,9 +398,15 @@ public class EmailController implements Initializable{
     private void initDateSelectBar() {
         //remove all button
         dateSelectorBar.getItems().clear();
-        int index=0;
+        int index = 0;
         Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
 
+        for(int i=inboxMessages.size()-1;i>=0;i--){
+            //=inboxMessages
+        }
         ToggleButton today = new ToggleButton("Today");
         today.setToggleGroup(toolBarGroup);
         today.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(10), new BorderWidths(1))));
@@ -438,7 +446,7 @@ public class EmailController implements Initializable{
         older.setToggleGroup(toolBarGroup);
         older.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(20), new BorderWidths(1))));
         dateSelectorBar.getItems().add(older);
-        for(Date d:dateForListRetrive) util.Util.prln(d.toString());
+        for (Date d : dateForListRetrive) util.Util.prln(d.toString());
 
 
         //parse inboxlist to get each day or week date in index

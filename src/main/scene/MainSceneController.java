@@ -24,7 +24,7 @@ public class MainSceneController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        //MusicPlayer mp=new MusicPlayer();
+        MusicPlayer mp=new MusicPlayer();
 
     }
 

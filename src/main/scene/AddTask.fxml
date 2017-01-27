@@ -9,10 +9,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.AddTaskController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="917.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.AddTaskController">
    <children>
-      <JFXButton fx:id="saveButton" buttonType="RAISED" layoutX="161.0" layoutY="444.0" onAction="#saveButtonAction" prefHeight="31.0" prefWidth="76.0" ripplerFill="#d8e400" style="-fx-background-color: #21d757;" text="Save" textFill="WHITE" />
-      <JFXButton fx:id="cancel" buttonType="RAISED" layoutX="270.0" layoutY="444.0" prefHeight="31.0" prefWidth="76.0" ripplerFill="#d8e400" style="-fx-background-color: #21d757;" text="Cancel" textFill="WHITE" />
+      <JFXButton fx:id="saveButton" buttonType="RAISED" layoutX="161.0" layoutY="444.0" onAction="#closeButtonAction" prefHeight="31.0" prefWidth="76.0" ripplerFill="#d8e400" style="-fx-background-color: #21d757;" text="Save" textFill="WHITE" />
+      <JFXButton fx:id="cancel" buttonType="RAISED" layoutX="270.0" layoutY="444.0" onAction="#cancelButtonAction" prefHeight="31.0" prefWidth="76.0" ripplerFill="#d8e400" style="-fx-background-color: #21d757;" text="Cancel" textFill="WHITE" />
       <JFXTextField fx:id="title" focusColor="#21d757" labelFloat="true" layoutX="81.0" layoutY="112.0" maxWidth="261.0" minWidth="236.0" prefHeight="37.0" prefWidth="236.0" promptText="Title" />
       <JFXDatePicker fx:id="dueDate" defaultColor="#21d757" layoutX="81.0" layoutY="179.0" prefHeight="37.0" prefWidth="236.0" promptText="Due date" />
       <JFXTextField fx:id="location" focusColor="#21d757" labelFloat="true" layoutX="83.0" layoutY="315.0" maxWidth="251.0" minWidth="236.0" prefHeight="37.0" prefWidth="236.0" promptText="Location" />

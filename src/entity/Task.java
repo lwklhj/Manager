@@ -3,6 +3,7 @@ package entity;
 import database.SqlStoreData;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.lang.Boolean;
 
 /**
@@ -11,41 +12,31 @@ import java.lang.Boolean;
 public class Task {
     private String title;
     private Date dueDate;
-    private int dueTime;
+    private Time dueTime;
     private  String location;
     private String priority;
-    private Boolean isCompleted;
-    private String adminNo;
+    //private Boolean isCompleted;
     public Task(){
 
     }
 
 
-    public Task (String title, Date dueDate, int dueTime,String location,String priority,String adminNo){
+    public Task (String title, Date dueDate, Time dueTime,String location,String priority){
         this.title=title;
         this.dueDate=dueDate;
         this.dueTime=dueTime;
         this.location=location;
         this.priority=priority;
-        isCompleted=false;
-        this.adminNo=adminNo;
+        //isCompleted=false;
     }
 
-    public String getAdminNo() {
-        return adminNo;
-    }
-
-    public void setAdminNo(String adminNo) {
-        this.adminNo = adminNo;
-    }
-
-    public Boolean getCompleted() {
+   /* public Boolean getCompleted() {
         return isCompleted;
     }
 
     public void setCompleted(Boolean completed) {
         isCompleted = completed;
-    }
+    }*/
 
     public String getTitle() {
         return title;
@@ -63,11 +54,11 @@ public class Task {
         this.dueDate = dueDate;
     }
 
-    public int getDueTime() {
+    public Time getDueTime() {
         return dueTime;
     }
 
-    public void setDueTime(int dueTime) {
+    public void setDueTime(Time dueTime) {
         this.dueTime = dueTime;
     }
 
@@ -89,22 +80,22 @@ public class Task {
     public void storeData(){
         SqlStoreData sql=new SqlStoreData();
         sql.openConnection();
-        sql.insertData("task","\""+title+"\","+"\""+dueDate.toString()+"\","+dueTime+",\""+location+"\",\""+priority+"\""+",\""+adminNo+"\"");
+        sql.insertData("task",String.format("\"%S\",\"%S\",\"%S\",\"%S\",\"%S\"",title,dueDate.toString(),dueTime.toString(),location,priority));
         sql.closeConnection();
 
 
     }
-    public void  storeData(String userName,String remoteIp,String password){
+    /*public void  storeData(String userName,String remoteIp,String password){
         SqlStoreData sql=new SqlStoreData();
         sql.setUserName(userName);
         sql.setPassword(password);
         sql.openConnection();
 
 
-        sql.insertData("task","\""+title+"\","+"\""+dueDate.toString()+"\","+dueTime+",\""+location+"\",\""+priority+"\"");
+        sql.insertData(String.format("INSERT INTO task VALUES(\"%S\",\"%S\",\"%S\",\"%S\",\"%S\")",title,dueDate.toString(),dueTime.toString(),location,priority));
         sql.closeConnection();
 
 
 
-    }
+    }*/
 }

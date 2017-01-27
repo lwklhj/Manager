@@ -8,7 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-
+import entity.Task;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -19,12 +19,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import entity.Task;
 
 /**
  * Created by lerai on 12/7/2016.
@@ -35,25 +35,62 @@ public class TaskListController implements Initializable {
     private ObservableList<Task> personalList = FXCollections.observableArrayList();
 
     @FXML
+    public ComboBox chooseTask;
+
+    @FXML
+    private ComboBox  chooseTask1;
+
+   // private enum state {PERSONAL, SCHOOL,WORK}
+
+   // private String currentState ;
+
+    @FXML
+    void handleButtonAction(ActionEvent event) {
+        /*currentState=chooseTask.getSelectionModel().getSelectedItem().toString();
+
+        switch (currentState){
+            case "Personal":
+                System.out.println("Personal");
+                break;
+            case "School":
+                System.out.println("School");
+                break;
+            case "Work":
+                System.out.println("Work");
+                break;
+
+        }*/
+
+    }
+
+
+    @FXML
     private javafx.scene.control.ListView listContent;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //change the listview whenever peronal list has change
+
+        chooseTask.getItems().addAll("Personal","School","Work");
+        chooseTask1.getItems().addAll("OOPP","IP networking","Law of IT");
+
+
         personalList.addListener(new ListChangeListener<Task>() {
             @Override
             public void onChanged(Change<? extends Task> c) {
 
                 ObservableList<String> displayTitle=FXCollections.observableArrayList();
                 for(int i=0;i<personalList.size();i++){
-                    displayTitle.add(personalList.get(i).getTitle());
+                    Task task=personalList.get(i);
+                    displayTitle.add(task.getTitle()+"\t"+task.getDueDate()+"\t"+task.getDueTime()+"\t"+task.getLocation()+"\t"+task.getPriority());
 
                 }
                 listContent.setItems(displayTitle);
+
+
             }
         });
-        //set mouse click event of list view,open context menu by location
         listContent.setOnMouseClicked(event -> showContectMenu(listContent.getSelectionModel().getSelectedIndex()));
-        retriveData ();
+        retrieveData();
 
     }
 
@@ -63,23 +100,21 @@ public class TaskListController implements Initializable {
         Parent root = FXMLLoader.load(getClass().getResource("AddTask.fxml"));
         Scene scene=new Scene(root);
         Stage stage=new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);//block all other window
+        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Add Task");
         stage.setScene(scene);
-        stage.showAndWait();//wait add task window to close
-        retriveData();
+        stage.showAndWait();
+        retrieveData();
 
     }
-    //should have othermethod that get last record use id
-    private void retriveData (){
+    private void retrieveData (){
         personalList.clear();
-        System.out.println(personalList.size());
+        //System.out.println(personalList.size());
         SqlRetrieveData data= new SqlRetrieveData();
         data.openConnection();
 
         rs=data.retriveWholeTable("task");
         data.closeConnection();
-        //process data
         try {
             while(rs.next()){
                 Task task = new Task();
@@ -87,7 +122,7 @@ public class TaskListController implements Initializable {
                 task.setLocation(rs.getString("location"));
                 task.setPriority(rs.getString("priority"));
                 task.setDueDate(rs.getDate("dueDate"));
-                task.setDueTime(rs.getInt("dueTime"));
+                task.setDueTime(rs.getTime("dueTime"));
 
                personalList.add(task);
 
@@ -100,10 +135,8 @@ public class TaskListController implements Initializable {
 
        // listContent.setItems(personalList);
     }
-
-    //display reight click menu
     private void showContectMenu(int index){
-        System.out.println("show context");
+        System.out.println(listContent.getSelectionModel().getSelectedItems());
         ContextMenu contextMenu=new ContextMenu();
         contextMenu.setOnShowing(new EventHandler<WindowEvent>() {
             @Override
@@ -128,7 +161,7 @@ public class TaskListController implements Initializable {
                 sql.openConnection();
                 sql.deleteTableRow("task","title","=","\""+task.getTitle()+"\"");
                 sql.closeConnection();
-                retriveData();
+                retrieveData();
 
             }
         });

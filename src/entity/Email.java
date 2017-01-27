@@ -25,7 +25,7 @@ public class Email  {
     public Email(String subject,String sender,Date sentDate,String cc,String content){
         this.subject=subject;
         this.sender=sender;
-        this.sentDate=parseDate(sentDate);
+        this.sentDate=sentDate;
         //System.out.println(sentDate.toString());
 
         this.cc=cc;
@@ -54,7 +54,7 @@ public class Email  {
     }
 
     public void setSentDate(Date sentDate) {
-        this.sentDate = parseDate(sentDate);
+        this.sentDate = sentDate;
     }
 
     public String getCc() {
@@ -75,8 +75,9 @@ public class Email  {
     public void storeData(String adminNo){
         SqlStoreData sql=new SqlStoreData();
         sql.openConnection();
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         content=content.replace("'","''");//replce single quote with 2 sqingle quote so can insert into database
-        sql.insertData("email",String.format("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\'%s\'",adminNo,subject,sender,sentDate,cc.toString(),content));//content enclose in single quote
+        sql.insertData("email",String.format("\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\'%s\'",adminNo,subject,sender,simpleDateFormat.format(sentDate),cc.toString(),content));//content enclose in single quote
         sql.closeConnection();
 
     }
