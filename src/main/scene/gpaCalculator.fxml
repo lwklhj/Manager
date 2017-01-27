@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="917.0" style="-fx-background-color: #eceff1;" stylesheets="@gpaCalculator.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.gpaCalculatorController">
+   <children>
+      <Label layoutX="22.0" layoutY="14.0" stylesheets="@../../fonts/Roboto-Light.css" text="Overall GPA" />
+      <Label fx:id="totalGPA" layoutX="45.0" layoutY="45.0" stylesheets="@../../fonts/AMDRTG.css" text="placeholder" />
+      <ScrollPane fitToWidth="true" layoutX="75.0" layoutY="119.0" prefHeight="503.0" prefWidth="155.0">
+        <content>
+            <VBox fx:id="selectorPanel" />
+        </content>
+      </ScrollPane>
+      <AnchorPane fx:id="ysDisplayPane" layoutX="265.0" layoutY="54.0" prefHeight="615.0" prefWidth="625.0" visible="false">
+         <children>
+            <Label layoutX="159.0" layoutY="32.0" stylesheets="@../../fonts/Roboto-Light.css" text="Semester:" />
+            <ScrollPane fitToWidth="true" layoutX="7.0" layoutY="65.0" prefHeight="503.0" prefWidth="612.0">
+               <content>
+                  <VBox fx:id="modulesPanel">
+                     <children>
+                        <HBox prefHeight="8.0" prefWidth="610.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="21.0" prefWidth="194.0" text="Module" />
+                              <Label alignment="CENTER" prefHeight="21.0" prefWidth="187.0" text="Module Credit Units" />
+                              <Label alignment="CENTER" prefHeight="21.0" prefWidth="185.0" text="Grade Obtained" />
+                           </children>
+                        </HBox>
+                     </children></VBox>
+               </content>
+            </ScrollPane>
+            <Button layoutX="556.0" layoutY="574.0" mnemonicParsing="false" onAction="#updateYearSemesterModules" text="Update" />
+            <Label layoutX="14.0" layoutY="32.0" stylesheets="@../../fonts/Roboto-Light.css" text="Year:" />
+            <ComboBox fx:id="semesterComboBox" layoutX="227.0" layoutY="27.0" prefHeight="31.0" prefWidth="78.0" stylesheets="@../../fonts/Roboto-Light.css" />
+            <Button layoutX="508.0" layoutY="574.0" mnemonicParsing="false" onAction="#addModule" text="Add" />
+            <ComboBox fx:id="yearComboBox" layoutX="50.0" layoutY="27.0" prefHeight="31.0" prefWidth="103.0" stylesheets="@../../fonts/Roboto-Light.css" />
+            <Label layoutX="313.0" layoutY="32.0" stylesheets="@../../fonts/Roboto-Light.css" text="Interim GPA:" />
+            <Label layoutX="403.0" layoutY="32.0" stylesheets="@../../fonts/AMDRTG.css" text="0.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

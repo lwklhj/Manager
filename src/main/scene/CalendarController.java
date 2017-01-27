@@ -1,41 +1,42 @@
 package main.scene;
 
+import database.CalendarDA;
+import entity.Calendar;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
-import entity.Calendar;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static javafx.fxml.FXMLLoader.load;
-
 /**
  * Created by Liu Woon Kit on 1/12/2016.
  */
 public class CalendarController extends MainSceneController implements Initializable {
-    private final Label[] daysLabel = new Label[7];
-    private final Button[] daysButton = new Button[42];
-    private final Button[] monthButton = new Button[12];
+    
+    private Label[] daysLabel = new Label[7];
+    private Button[] daysButton = new Button[31];
+    private Button[] monthButton = new Button[12];
+    private Button[] yearButton = new Button[49];
 
-    private final String[] dayOfWeek = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-    private final String[] monthOfYear = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    
+    protected static Calendar cal = new Calendar();
+    private String[] dayOfWeek = cal.getDayOfWeek();
+    private String[] monthOfYear = cal.getMonthOfYear();
 
-    Calendar cal = new Calendar();
+    
+    private String selectedMode = "DayPicker";
 
     @FXML
     GridPane calGrid;
 
     @FXML
-    Button calPicker;
+    Button modeDisplay;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -43,131 +44,212 @@ public class CalendarController extends MainSceneController implements Initializ
     }
 
     @FXML
-    void setPicker(ActionEvent event) {
-        if(cal.getCurrentMode() == "PeriodPicker") {
-            cal.setCurrentMode("DayPicker");
-            daySelector();
+    void setMode(ActionEvent event) {
+        switch (selectedMode) {
+
+            case "DayPicker":
+                monthSelector();
+                break;
+
+            case "MonthPicker":
+                yearSelector();
+                break;
+
         }
-        else if(cal.getCurrentMode() == "DayPicker")
-            monthSelector();
-        else if (cal.getCurrentMode() == "MonthPicker")
-            yearSelector();
     }
 
-    public CalendarController() {
-
-    }
-
-    public void periodSelector() throws IOException {
-        //fuck dis
-        Parent root = FXMLLoader.load(getClass().getResource("CalendarPeriod.fxml"));
-        Scene scene = new Scene(root);
-        Stage secondaryStage = new Stage();
-        secondaryStage.setScene(scene);
-        secondaryStage.show();
+    public void periodicView() throws IOException {
+        new SecondaryScene("CalendarPeriod.fxml", "null", true);
     }
 
     public void daySelector() {
         clearGrid();
-        calPicker.setText(cal.getStringDate());
-        //To-do: clean up more codes
+        modeDisplay.setText(cal.getStringDate());
 
-        //set labels
-        for(int u = 0; u < 7; u++) {
+        
+        for (int u = 0; u < 7; u++) {
             calGrid.add(daysLabel[u] = new Label(dayOfWeek[u]), u, 0);
         }
 
-        //create blank buttons with events
-        //row is x, column is y, set using column by row
-        for(int i = 0, x = 1, y = 0; i < 42; i++) {
+        
+        
+        /*for(int i = 0, x = 1, y = 0; i < 42; i++) {
             if(y > 6) {
                 y = 0;
                 x++;
             }
             calGrid.add(daysButton[i] = new Button(), y, x);
+
+            
             int tempIndex = i;
-            daysButton[i].setOnAction(ActionEvent -> {
-                cal.setCurrentMode("PeriodPicker");
-                //debug line
-                System.out.println(Integer.parseInt(daysButton[tempIndex].getText()));
-                cal.setSelectedDay(Integer.parseInt(daysButton[tempIndex].getText()));
-                try {
-                    periodSelector();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            daysButton[i].setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent e) {
+                    if(daysButton[tempIndex].getText() == "")
+                        return;
+
+                    else {
+                        cal.setSelectedDay(parseInt(daysButton[tempIndex].getText()));
+                        try {
+                            periodicView();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+
                 }
             });
 
             y++;
         }
 
-        //fill blank buttons with numbers
+        
         for(int i = cal.getFirstDay(), j = 0; j < cal.getLastDayOfMonth(); i++) {
             daysButton[i - 1].setText((j + 1) + "");
             j++;
+        }*/
+
+
+        
+        
+
+        for (int i = 0, x = (cal.getFirstDay() - 1), y = 1; i < cal.getLastDayOfMonth(); i++) {
+            if (x > 6) {
+                x = 0;
+                y++;
+            }
+            calGrid.add(daysButton[i] = new Button(Integer.toString(i + 1)), x, y);
+
+            int tempNum = i + 1;
+            daysButton[i].setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    cal.setSelectedDay(tempNum);
+                    try {
+                        periodicView();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            x++;
         }
+
+        displayHolidays();
+        displayTaskDays();
     }
 
-    public void monthSelector(){
+    public void monthSelector() {
         clearGrid();
-        cal.setCurrentMode("MonthPicker");
-        calPicker.setText(cal.getSelectedYear() + "");
+        selectedMode = "MonthPicker";
+        modeDisplay.setText(cal.getSelectedYear() + "");
 
-        for(int i = 0, x = 0, y = 0; i<11; i++) {
-            if(x > 6) {
+        for (int i = 0, x = 0, y = 0; i <= 11; i++) {
+            if (x > 6) {
                 y = 1;
                 x = 0;
             }
-            calGrid.add(monthButton[i] = new Button(monthOfYear[i]), x, y);
-            x++;
 
-            //set j = i to bypass error
-            int j = i;
-            //set onclick event
-            monthButton[i].setOnAction(ActionEvent -> {
-                cal.setCurrentMode("DayPicker");
-                System.out.println(monthButton[j].getText());
-                //To-do: clean up this part using array, note please don't touch this team
-                for(int p = 0; p < 6; p++) {
-                    if (monthButton[j].getText() == monthOfYear[p]) {
-                        cal.setSelectedMonth(p);
-                        break;
-                    }
+            calGrid.add(monthButton[i] = new Button(monthOfYear[i]), x, y);
+
+            int tempNum = i;
+            monthButton[i].setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    selectedMode = "DayPicker";
+                    cal.setSelectedMonth(tempNum);
+                    daySelector();
                 }
-                daySelector();
             });
 
-
+            x++;
         }
     }
 
     public void yearSelector() {
         clearGrid();
-        cal.setCurrentMode("YearPicker");
-        calPicker.setText("2000 - 2099");
-}
+        selectedMode = "YearPicker";
+        modeDisplay.setText("2000 - 2042");
+        for (int i = 0, x = 0, y = 0, year = cal.getSelectedYear(); i < 49; i++) {
+            if (y > 6) {
+                x++;
+                y = 0;
+            }
+            calGrid.add(yearButton[i] = new Button(year + ""), y, x);
+
+            int j = i;
+
+            yearButton[i].setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    System.out.println(yearButton[j].getText());
+                }
+            });
+
+            y++;
+            year++;
+        }
+    }
 
     public void clearGrid() {
-        //wipe grid of elements
+        
         calGrid.getChildren().clear();
     }
 
-    public void ButtonPlus() {
-        cal.setSelectedButton(1);
-        ButtonCommon();
+    public void ButtonDown() {
+        cal.setSelectedMonth(cal.getSelectedMonth() + 1);
+        refreshDisplay();
     }
 
-    public void ButtonMinus() {
-        cal.setSelectedButton(-1);
-        ButtonCommon();
+    public void ButtonUp() {
+        cal.setSelectedMonth(cal.getSelectedMonth() - 1);
+        refreshDisplay();
     }
 
-    public void ButtonCommon() {
-        if(cal.getCurrentMode() == "DayPicker")
-            daySelector();
-        else if(cal.getCurrentMode() == "MonthPicker")
-            monthSelector();
-        else if(cal.getCurrentMode() == "YearPicker")
-            yearSelector();
+    public void refreshDisplay() {
+        
+        switch (selectedMode) {
+
+            case "DayPicker":
+                daySelector();
+                break;
+
+            case "MonthPicker":
+                monthSelector();
+                break;
+
+            case "YearPicker":
+                yearSelector();
+                break;
+
+        }
     }
+
+    public void displayTaskDays() {
+        /*TaskAccess taskDB = new TaskAccess();
+        for (int i = 1; i < 32; i++) {
+            ArrayList arr = null;
+            try {
+                arr = taskDB.getTask(user.getSchool(), i + "/" + cal.getSelectedMonth() + "/" + cal.getSelectedYear());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if (arr.size() > 0) {
+                daysButton[cal.getFirstDay()].setStyle("-fx-background-color: #f44336;");
+            }
+        }*/
+    }
+
+    private CalendarDA calendarDA = new CalendarDA();
+
+    private void displayHolidays() {
+        for (int i = 1, z = cal.getLastDayOfMonth() + 1; i < z; i++) {
+            String date = cal.arrangeDate(cal.getSelectedYear(), cal.getSelectedMonth() + 1, i);
+            if (calendarDA.checkHoliday(date) == true) {
+                daysButton[i - 1].setStyle("-fx-background-color: #e91e63; -fx-text-fill: #ffffff;");
+            }
+        }
+    }
+    
 }

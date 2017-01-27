@@ -19,7 +19,7 @@
             </Label>
          </children>
       </Pane>
-      <Label layoutX="62.0" layoutY="125.0" stylesheets="@../../fonts/Roboto-Light.css" text="Name / ID" />
+      <Label layoutX="62.0" layoutY="125.0" stylesheets="@../../fonts/Roboto-Light.css" text="Admin Number" />
       <Label layoutX="62.0" layoutY="194.0" stylesheets="@../../fonts/Roboto-Light.css" text="Password" />
       <TextField fx:id="nameTextField" layoutX="62.0" layoutY="152.0" prefHeight="31.0" prefWidth="276.0" stylesheets="@../../fonts/Roboto-Light.css" />
       <PasswordField fx:id="passTextField" layoutX="62.0" layoutY="224.0" prefHeight="31.0" prefWidth="276.0" stylesheets="@../../fonts/Roboto-Light.css" />

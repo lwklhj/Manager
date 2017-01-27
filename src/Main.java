@@ -13,7 +13,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        Parent root = FXMLLoader.load(getClass().getResource("/main/scene/Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("main/scene/Login.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("main/scene/MainScene.fxml"));
         //Parent root = FXMLLoader.load(getClass().getResource("/main/scene/email.fxml"));
         //Parent root = FXMLLoader.load(getClass().getResource("/main/scene/PomodoroTimer.fxml"));
         primaryStage.setTitle("Personal Manager");

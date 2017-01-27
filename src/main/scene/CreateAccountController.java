@@ -127,13 +127,14 @@ public class CreateAccountController implements Initializable {
 
         System.out.println("check Admin Number");
 
-        User user=new User(
+        User user = new User(
                 nameField.getText(),                                               //name
                 genderGroup.getSelectedToggle().getUserData().toString(),         //gender
-                Date.valueOf(birthDateText),                            //date in sql.Date format
+                Date.valueOf(birthDateText),                                     //date in sql.Date format
                 passwordField.getText(),                                        //pass
                 adminNoField.getText(),                                        //adminNo
-                emailField.getText());                                        //email
+                emailField.getText(),                                         //email
+                school.getValue() + "");                               //school
         user.storeData();
 
         try{

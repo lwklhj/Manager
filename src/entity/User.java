@@ -1,59 +1,37 @@
 package entity;
-///nnned update fotr field date
-import database.DataBase;
+
 import database.SqlStoreData;
 
 import java.sql.Date;
 
 /**
  * Created by hehef on 12/16/2016.
+ * Updated by Woon Kit on Friday the 13th on January 2016
  */
-public class User implements DataBase{
-    private String name;
-    private String gender;
-    private Date birthDate;
-    private String password;
-    private String adminNo;
-    private String email;
-    public User(String name,String gender,Date birthDate,String password,String adminNo,String email){
+public class User {
+    private String adminNo, school, name, email, gender, password;
+    Date birthDate;
+
+    public User() {
+
+    }
+
+    public User(String adminNo, String school, String name, String email, String gender){
+        this.adminNo = adminNo;
+        this.school = school;
         this.name=name;
-        this.gender=gender;
-        this.birthDate=birthDate;
-        this.password=password;
-        this.adminNo=adminNo;
         this.email=email;
+        this.gender=gender;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public User(String name, String gender, Date birthDate, String password, String adminNo, String email, String school){
         this.name = name;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public Date getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
         this.password = password;
+        this.adminNo = adminNo;
+        this.email = email;
+        this.school = school;
     }
 
     public String getAdminNo() {
@@ -64,6 +42,22 @@ public class User implements DataBase{
         this.adminNo = adminNo;
     }
 
+    public String getSchool() {
+        return school;
+    }
+
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -72,32 +66,20 @@ public class User implements DataBase{
         this.email = email;
     }
 
-    public User(){
-
+    public String getGender() {
+        return gender;
     }
 
-    @Override
-    public void updateData() {
-
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    @Override
-    public void storeData() {
+    public void storeData(){
         SqlStoreData update=new SqlStoreData();
         update.openConnection();
 
-        update.insertData("user","\""+name+"\",\""+gender+"\",\""+birthDate.toString()+"\",\""+adminNo+"\",\""+email+"\",\""+password+"\"");
+        update.insertData("user","\""+name+"\",\""+gender+"\",\""+birthDate.toString()+"\",\""+adminNo+"\",\""+email+"\",\""+password+"\",\""+school+"\" ");
         update.closeConnection();
-
-    }
-
-    @Override
-    public void retriveData() {
-
-    }
-
-    @Override
-    public void deleteData() {
 
     }
 }

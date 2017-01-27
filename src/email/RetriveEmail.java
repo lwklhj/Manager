@@ -1,7 +1,5 @@
 package email;
 
-import javafx.scene.control.Alert;
-
 import javax.mail.*;
 import java.io.IOException;
 import java.util.Properties;
@@ -37,7 +35,6 @@ public class RetriveEmail extends Email {
 
     @Override
     public void openConnection() {
-        //use property so set property info
         Properties props=new Properties();
         switch(type){
             case POP:
@@ -50,7 +47,7 @@ public class RetriveEmail extends Email {
 
                 break;
         }
-        //set session by use property and use username and password to authentication
+
         session=Session.getInstance(props, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -61,7 +58,7 @@ public class RetriveEmail extends Email {
 
     }
     public Message[] retriveEmail(){
-        //Message[] emailList;
+        Message[] emailList;
 
         try{
             Store store=session.getStore("pop3s");
@@ -69,24 +66,14 @@ public class RetriveEmail extends Email {
 
             Folder inbox=store.getFolder("INBOX");
             inbox.open(Folder.READ_ONLY);
-            return inbox.getMessages();
+            emailList=inbox.getMessages();
+            return emailList;
 
         }catch (NoSuchProviderException e){
             System.out.println("No Such Provider");
 
-        }catch (AuthenticationFailedException e){
-            Alert alert=new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setContentText("You enter wrong password or user name\nARE YOU DUMBASS\nMAYBE you school block me :(");
-            alert.setHeaderText("WTF "+e.getMessage());
-            alert.showAndWait();
-        } catch(MessagingException e){
-
-            Alert alert=new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setContentText("No internet or school block me :(");
-            alert.setHeaderText(e.getMessage());
-            alert.showAndWait();
+        }catch (MessagingException e){
+            e.printStackTrace();
 
         }
         return null;
