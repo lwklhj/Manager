@@ -4,8 +4,7 @@ import database.SqlDeleteData;
 import database.SqlRetrieveData;
 
 import email.RetriveEmail;
-import entity.Email;
-import entity.User;
+import entity.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -33,6 +32,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.util.*;
+import java.util.Calendar;
 
 /**
  * Created by hehef on 12/6/2016.
@@ -213,6 +213,7 @@ public class EmailController implements Initializable{
         displayImportantListContent(importantMessages);
         importantButton.setSelected(true);
         currentState=State.IMPORTANT;
+        dateSelectorBar.getItems().clear();
         //listView.getContextMenu().getItems().remove(1);
     }
 
@@ -245,6 +246,19 @@ public class EmailController implements Initializable{
             listView.setItems(displayList);
         }
     }
+    private void displayListContent(ObservableList<Message> message,int startIndex,int endIndex){
+        displayList.clear();
+        if(message!=null) {
+            for (int i = startIndex; i >= endIndex; i--) {
+                try {
+                    displayList.add(message.get(i).getSubject());
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                }
+            }
+            listView.setItems(displayList);
+        }
+    }
     private void displayImportantListContent(ObservableList<Email> emails){
         displayList.clear();
         if(emails!=null) {
@@ -259,7 +273,7 @@ public class EmailController implements Initializable{
     private void retriveMail(){
         if(isSynchronize==false) {
             //to get user id and password
-            TextField nameField=new TextField();
+           /* TextField nameField=new TextField();
             nameField.setPromptText("Name");
             PasswordField passField=new PasswordField();
             passField.setPromptText("Password");
@@ -268,8 +282,16 @@ public class EmailController implements Initializable{
                 public void handle(KeyEvent event) {
                     if(event.getCode()== KeyCode.ENTER) {
                         //get current window
-                        Stage stage = (Stage) passField.getScene().getWindow();
-                        stage.close();
+                        if(nameField.getText().equals("")||passField.getText().equals("")){
+                            Alert alert=new Alert(Alert.AlertType.ERROR);
+                            alert.setContentText("empty password or username");
+                            alert.show();
+                        }
+                        else {
+                            Stage stage = (Stage) passField.getScene().getWindow();
+                            stage.close();
+                        }
+
                     }
                 }
             });
@@ -277,8 +299,15 @@ public class EmailController implements Initializable{
             btn.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    Stage stage=(Stage)btn.getScene().getWindow();
-                    stage.close();
+                    if(nameField.getText().equals("")||passField.getText().equals("")){
+                        Alert alert=new Alert(Alert.AlertType.ERROR);
+                        alert.setContentText("empty password or username");
+                        alert.show();
+                    }
+                    else {
+                        Stage stage = (Stage) btn.getScene().getWindow();
+                        stage.close();
+                    }
 
                 }
             });
@@ -289,8 +318,8 @@ public class EmailController implements Initializable{
             Scene scene=new Scene(vb);
             Stage stage=new Stage();
             stage.setScene(scene);
-            stage.showAndWait();
-            RetriveEmail re = new RetriveEmail(nameField.getText().toUpperCase(), passField.getText());
+            stage.showAndWait();*/
+            RetriveEmail re = new RetriveEmail("160244J", "2ohrvblh");
             re.openConnection();
             try {
                 inboxMessages = FXCollections.observableArrayList(re.retriveEmail());//wrap it in observable arraylist
@@ -395,61 +424,89 @@ public class EmailController implements Initializable{
     }
 
     //date button
+    ////fore start index use first item ech day in list in next loop
     private void initDateSelectBar() {
+        ///////
         //remove all button
         dateSelectorBar.getItems().clear();
-        int index = 0;
+        int startIndex=inboxMessages.size()-1;
+
+
+        //get last email date in inboxlist,last item display first
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
+        Calendar firstDateOfWeek=Calendar.getInstance();
 
-        for(int i=inboxMessages.size()-1;i>=0;i--){
-            //=inboxMessages
+        try {
+            calendar.setTime(inboxMessages.get(startIndex).getSentDate());
+            calendar.set(Calendar.HOUR_OF_DAY,0);
+
+            /*calendar.set(Calendar.HOUR, 0);
+
+            ;*/
+
+            //use tocalculate only this week
+            firstDateOfWeek.set(Calendar.DAY_OF_WEEK,calendar.getFirstDayOfWeek()+1);
+            firstDateOfWeek.set(Calendar.HOUR_OF_DAY,0);
+            firstDateOfWeek.set(Calendar.MILLISECOND, 0);
+            firstDateOfWeek.set(Calendar.SECOND, 0);
+            /*firstDateOfWeek.set(Calendar.HOUR, 0);
+            firstDateOfWeek.set(Calendar.MINUTE, 0);
+            firstDateOfWeek.set(Calendar.SECOND, 0);*/
+
+            for(int i=startIndex;i>=0;i--){
+
+                if(inboxMessages.get(i).getSentDate().before(calendar.getTime())){
+                    System.out.println(i+"\t"+calendar.getTime().toString()+"\t"+inboxMessages.get(i).getSentDate().toString());
+                    ToggleButton button=new ToggleButton(daysName[calendar.get(Calendar.DAY_OF_WEEK) - 1]);
+                    addButtonToDateSelectBar(button,startIndex,i+1);
+
+                    calendar.setTime(inboxMessages.get(i).getSentDate());
+                    calendar.set(Calendar.HOUR_OF_DAY,0);
+                    calendar.set(Calendar.MILLISECOND, 0);
+                    calendar.set(Calendar.SECOND, 0);
+                    startIndex=i;
+                    if(inboxMessages.get(i).getSentDate().before(firstDateOfWeek.getTime())) {
+                        break;
+                    }
+                }
+            }
+
+            ToggleButton lastWeekButton=new ToggleButton("Last Week");
+            firstDateOfWeek.add(Calendar.DAY_OF_WEEK,-7);
+            firstDateOfWeek.set(Calendar.HOUR_OF_DAY,0);
+            firstDateOfWeek.set(Calendar.MILLISECOND, 0);
+            firstDateOfWeek.set(Calendar.SECOND, 0);
+            System.out.println("first date of last week "+firstDateOfWeek.getTime().toString());
+            for(int i=startIndex;i>=0;i--){
+                if(inboxMessages.get(i).getSentDate().before(firstDateOfWeek.getTime())) {
+                    addButtonToDateSelectBar(lastWeekButton,startIndex,i+1);
+                    startIndex=i;
+                    break;
+                }
+            }
+
+            ToggleButton olderButton=new ToggleButton("older");
+            addButtonToDateSelectBar(olderButton,startIndex,0);
+
+            ToggleButton allButton=new ToggleButton("All");
+            addButtonToDateSelectBar(allButton,inboxMessages.size()-1,0);
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
         }
-        ToggleButton today = new ToggleButton("Today");
-        today.setToggleGroup(toolBarGroup);
-        today.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(10), new BorderWidths(1))));
-        dateSelectorBar.getItems().add(today);
-        dateForListRetrive.add(calendar.getTime());
-        calendar.add(Calendar.DATE, -1);
-
-        //if today button is monday ,then no need this button
-        if (calendar.get(Calendar.DAY_OF_WEEK) != 1) {
-            ToggleButton yesterday = new ToggleButton("Yesterday");
-            yesterday.setToggleGroup(toolBarGroup);
-            yesterday.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(20), new BorderWidths(1))));
-            dateSelectorBar.getItems().add(yesterday);
-            dateForListRetrive.add(calendar.getTime());
-            calendar.add(Calendar.DATE, -1);
-        }
-
-
-        for (int i = calendar.get(Calendar.DAY_OF_WEEK) - 1; i >= 1; i--) {
-            ToggleButton tb = new ToggleButton(daysName[calendar.get(Calendar.DAY_OF_WEEK) - 1]);
-            tb.setToggleGroup(toolBarGroup);
-            tb.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(20), new BorderWidths(1))));
-            dateSelectorBar.getItems().add(tb);
-            dateForListRetrive.add(calendar.getTime());
-            calendar.add(Calendar.DATE, -1);
-        }
-
-        ToggleButton lastWeek = new ToggleButton("Last week");
-        lastWeek.setToggleGroup(toolBarGroup);
-        lastWeek.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(20), new BorderWidths(1))));
-        dateSelectorBar.getItems().add(lastWeek);
-        dateForListRetrive.add(calendar.getTime());//add last week start date
-        calendar.add(Calendar.DATE, -7);
-        dateForListRetrive.add(calendar.getTime());//add last week end date
-
-        ToggleButton older = new ToggleButton("Older");
-        older.setToggleGroup(toolBarGroup);
-        older.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(20), new BorderWidths(1))));
-        dateSelectorBar.getItems().add(older);
-        for (Date d : dateForListRetrive) util.Util.prln(d.toString());
-
-
-        //parse inboxlist to get each day or week date in index
+    }
+    private void addButtonToDateSelectBar(ToggleButton btn,int startIndex,int endIndex){
+        btn.setPrefWidth(90);
+        btn.setToggleGroup(toolBarGroup);
+        btn.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(20), new BorderWidths(1))));
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //System.out.println(startIndex+"\t"+endIndex);
+                displayListContent(inboxMessages,startIndex,endIndex);
+            }
+        });
+        dateSelectorBar.getItems().add(0,btn);
     }
 
 

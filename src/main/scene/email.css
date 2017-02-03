@@ -3,7 +3,7 @@
 
 }
 .toggle-button:selected{
--fx-background-color:#21d757;
+-fx-background-color: #607d8b;
 -fx-text-fill:white;
 -fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0)
 
