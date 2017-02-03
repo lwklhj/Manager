@@ -42,24 +42,13 @@ public class TaskListController implements Initializable {
 
    // private enum state {PERSONAL, SCHOOL,WORK}
 
-   // private String currentState ;
+    private String currentState ;
 
     @FXML
     void handleButtonAction(ActionEvent event) {
-        /*currentState=chooseTask.getSelectionModel().getSelectedItem().toString();
+        currentState=chooseTask.getSelectionModel().getSelectedItem().toString();
+        retrieveData(currentState);
 
-        switch (currentState){
-            case "Personal":
-                System.out.println("Personal");
-                break;
-            case "School":
-                System.out.println("School");
-                break;
-            case "Work":
-                System.out.println("Work");
-                break;
-
-        }*/
 
     }
 
@@ -81,7 +70,7 @@ public class TaskListController implements Initializable {
                 ObservableList<String> displayTitle=FXCollections.observableArrayList();
                 for(int i=0;i<personalList.size();i++){
                     Task task=personalList.get(i);
-                    displayTitle.add(task.getTitle()+"\t"+task.getDueDate()+"\t"+task.getDueTime()+"\t"+task.getLocation()+"\t"+task.getPriority());
+                    displayTitle.add(task.getTitle()+"\t"+"\t"+task.getDueDate()+"\t"+"\t"+task.getDueTime()+"\t"+"\t"+task.getLocation()+"\t"+"\t"+task.getPriority());
 
                 }
                 listContent.setItems(displayTitle);
@@ -90,30 +79,34 @@ public class TaskListController implements Initializable {
             }
         });
         listContent.setOnMouseClicked(event -> showContectMenu(listContent.getSelectionModel().getSelectedIndex()));
-        retrieveData();
+        //retrieveData();
 
     }
 
     @FXML
     void addTask(ActionEvent event) throws IOException{
 
-        Parent root = FXMLLoader.load(getClass().getResource("AddTask.fxml"));
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("AddTask.fxml"));
+
+        Parent root = loader.load();
+        AddTaskController controller=loader.<AddTaskController>getController();
+        controller.setType(currentState);
         Scene scene=new Scene(root);
         Stage stage=new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle("Add Task");
         stage.setScene(scene);
         stage.showAndWait();
-        retrieveData();
+        retrieveData(currentState);
 
     }
-    private void retrieveData (){
+    private void retrieveData (String type){
         personalList.clear();
         //System.out.println(personalList.size());
         SqlRetrieveData data= new SqlRetrieveData();
         data.openConnection();
 
-        rs=data.retriveWholeTable("task");
+        rs=data.retriveData("select * from task where type = \""+type+"\"");
         data.closeConnection();
         try {
             while(rs.next()){
@@ -124,7 +117,7 @@ public class TaskListController implements Initializable {
                 task.setDueDate(rs.getDate("dueDate"));
                 task.setDueTime(rs.getTime("dueTime"));
 
-               personalList.add(task);
+                personalList.add(task);
 
 
             }
@@ -161,7 +154,7 @@ public class TaskListController implements Initializable {
                 sql.openConnection();
                 sql.deleteTableRow("task","title","=","\""+task.getTitle()+"\"");
                 sql.closeConnection();
-                retrieveData();
+                retrieveData(currentState);
 
             }
         });

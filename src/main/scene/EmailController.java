@@ -75,6 +75,8 @@ public class EmailController implements Initializable{
     @FXML
     private ToggleButton startSynchron;
 
+    private int currentInboxButtonIndex=0;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         user=new User();
@@ -97,7 +99,8 @@ public class EmailController implements Initializable{
         int index=0;
         switch(currentState){
             case INBOX:
-                index=inboxMessages.size()-1-listView.getSelectionModel().getSelectedIndex();
+                index=currentInboxButtonIndex-listView.getSelectionModel().getSelectedIndex();
+                System.out.println(currentInboxButtonIndex+" "+listView.getSelectionModel().getSelectedIndex()+" "+index);
                break;
             case IMPORTANT:
                 index=importantMessages.size()-1-listView.getSelectionModel().getSelectedIndex();
@@ -123,8 +126,6 @@ public class EmailController implements Initializable{
                     @Override
                     public void handle(ActionEvent event) {
                         openMail(getEmailObject(inboxMessages.get(index)));
-
-
                     }
                 });
                 MenuItem add=new MenuItem("add to Important");
@@ -135,7 +136,6 @@ public class EmailController implements Initializable{
                         email.storeData(user.getAdminNo());
                         importantMessages.add(email);
                         //save to data base
-
                     }
                 });
                 contextMenu.getItems().addAll(open,add);
@@ -169,10 +169,7 @@ public class EmailController implements Initializable{
                 contextMenu.getItems().addAll(open2,delete);
                 break;
         }
-
-
         listView.setContextMenu(contextMenu);
-
     }
 
 
@@ -489,6 +486,7 @@ public class EmailController implements Initializable{
             addButtonToDateSelectBar(olderButton,startIndex,0);
 
             ToggleButton allButton=new ToggleButton("All");
+            allButton.setSelected(true);
             addButtonToDateSelectBar(allButton,inboxMessages.size()-1,0);
 
         } catch (MessagingException e) {
@@ -502,8 +500,9 @@ public class EmailController implements Initializable{
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //System.out.println(startIndex+"\t"+endIndex);
+
                 displayListContent(inboxMessages,startIndex,endIndex);
+                currentInboxButtonIndex=startIndex;
             }
         });
         dateSelectorBar.getItems().add(0,btn);

@@ -40,7 +40,7 @@ public class AddTaskController implements Initializable{
     @FXML
     private JFXTextField location;
 
-
+    private String type;
 
 
     @Override
@@ -60,7 +60,7 @@ public class AddTaskController implements Initializable{
 
 
         //Task task = new Task(title.getText(),dueDate.get,dueTime.getTime(),location.getText(),priority.getPromptText());
-        Task task = new Task(title.getText(),localD,localT,location.getText(),priority.getSelectionModel().getSelectedItem(), adminNo);
+        Task task = new Task(title.getText(),localD,localT,location.getText(),priority.getSelectionModel().getSelectedItem(), adminNo,type);
         task.storeData();
 
         Stage stage = (Stage) saveButton.getScene().getWindow();
@@ -68,8 +68,14 @@ public class AddTaskController implements Initializable{
     }
     @FXML
     void cancelButtonAction(ActionEvent event){
-        Stage close = (Stage) cancel.getScene().getWindow();
-        close.close();
+        title.setText("");
+        dueDate.setValue(null);
+        dueTime.setTime(null);
+        location.setText("");
+        priority.getSelectionModel().clearSelection();
+    }
+    public void setType(String type) {
+        this.type = type;
     }
 
 }
