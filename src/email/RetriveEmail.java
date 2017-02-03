@@ -3,6 +3,7 @@ package email;
 import javax.mail.*;
 import java.io.IOException;
 import java.util.Properties;
+import javafx.scene.control.Alert;
 
 /**
  * Created by hehef on 12/22/2016.
@@ -58,7 +59,7 @@ public class RetriveEmail extends Email {
 
     }
     public Message[] retriveEmail(){
-        Message[] emailList;
+        //Message[] emailList;
 
         try{
             Store store=session.getStore("pop3s");
@@ -66,14 +67,24 @@ public class RetriveEmail extends Email {
 
             Folder inbox=store.getFolder("INBOX");
             inbox.open(Folder.READ_ONLY);
-            emailList=inbox.getMessages();
-            return emailList;
+            return inbox.getMessages();
+            //return emailList;
 
-        }catch (NoSuchProviderException e){
+        }catch (AuthenticationFailedException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("You enter wrong password or user name\nARE YOU DUMBASS\nMAYBE you school block me :(");
+            alert.setHeaderText("WTF " + e.getMessage());
+            alert.showAndWait();
+        } catch (NoSuchProviderException e){
             System.out.println("No Such Provider");
 
         }catch (MessagingException e){
-            e.printStackTrace();
+            Alert alert=new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setContentText("No internet or school block me :(");
+            alert.setHeaderText(e.getMessage());
+            alert.showAndWait();
 
         }
         return null;

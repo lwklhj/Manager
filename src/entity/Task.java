@@ -15,19 +15,21 @@ public class Task {
     private Time dueTime;
     private  String location;
     private String priority;
+    private String adminNo;
     //private Boolean isCompleted;
     public Task(){
 
     }
 
 
-    public Task (String title, Date dueDate, Time dueTime,String location,String priority){
+    public Task (String title, Date dueDate, Time dueTime,String location,String priority, String adminNo){
         this.title=title;
         this.dueDate=dueDate;
         this.dueTime=dueTime;
         this.location=location;
         this.priority=priority;
         //isCompleted=false;
+        this.adminNo = adminNo;
     }
 
    /* public Boolean getCompleted() {
@@ -77,10 +79,19 @@ public class Task {
     public void setPriority(String priority) {
         this.priority = priority;
     }
+
+    public String getAdminNo() {
+        return adminNo;
+    }
+
+    public void setAdminNo(String adminNo) {
+        this.adminNo = adminNo;
+    }
+
     public void storeData(){
         SqlStoreData sql=new SqlStoreData();
         sql.openConnection();
-        sql.insertData("task",String.format("\"%S\",\"%S\",\"%S\",\"%S\",\"%S\"",title,dueDate.toString(),dueTime.toString(),location,priority));
+        sql.insertData("task",String.format("\"%S\",\"%S\",\"%S\",\"%S\",\"%S\",\"%S\"",title,dueDate.toString(),dueTime.toString(),location,priority, adminNo));
         sql.closeConnection();
 
 

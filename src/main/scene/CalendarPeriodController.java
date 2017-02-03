@@ -24,11 +24,7 @@ public class CalendarPeriodController extends CalendarController implements Init
     private TaskDA taskDA = new TaskDA();
 
     
-    private ObservableList tasksList
-            
-            
-            
-            = FXCollections.observableArrayList();
+    private ObservableList tasksList = FXCollections.observableArrayList();
 
     @FXML
     private TableView eventTable;

@@ -77,7 +77,7 @@ public class MainSceneController implements Initializable{
 
     @FXML
     void emailClick(ActionEvent event) throws IOException {
-        //content.getChildren().setAll((AnchorPane)FXMLLoader.load(getClass().getResource("email.fxml")));
+        content.getChildren().setAll((AnchorPane)FXMLLoader.load(getClass().getResource("email.fxml")));
     }
 
     @FXML
@@ -93,6 +93,7 @@ public class MainSceneController implements Initializable{
     @FXML
     void gpaClick(ActionEvent event) throws IOException {
         content.getChildren().setAll((AnchorPane)FXMLLoader.load(getClass().getResource("gpaCalculator.fxml")));
+        util.Util.prln("click");
     }
 
     @FXML

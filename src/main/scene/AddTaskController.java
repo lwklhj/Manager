@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import database.UserDA;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 
@@ -19,6 +20,9 @@ import entity.Task;
 
 
 public class AddTaskController implements Initializable{
+    // no touch this
+    private String adminNo = new UserDA().getUser().getAdminNo();
+
     @FXML
     private JFXComboBox<String> priority;
     @FXML
@@ -56,7 +60,7 @@ public class AddTaskController implements Initializable{
 
 
         //Task task = new Task(title.getText(),dueDate.get,dueTime.getTime(),location.getText(),priority.getPromptText());
-        Task task = new Task(title.getText(),localD,localT,location.getText(),priority.getSelectionModel().getSelectedItem());
+        Task task = new Task(title.getText(),localD,localT,location.getText(),priority.getSelectionModel().getSelectedItem(), adminNo);
         task.storeData();
 
         Stage stage = (Stage) saveButton.getScene().getWindow();

@@ -70,14 +70,18 @@ public class GpaDA {
         ArrayList<String> yearSemestersList = new ArrayList<>();
         String sqlQuery = "SELECT * FROM gpa WHERE adminNo='"+adminNo+"' ";
         ResultSet rs = sqlRetrieveData.retriveData(sqlQuery);
-        try {
-            while(rs.next()) {
-                String yearSemester = rs.getString("yearSemester");
-                if(!yearSemestersList.contains(yearSemester))
-                    yearSemestersList.add(yearSemester);
+        if(rs!=null) {
+            try {
+                while (rs.next()) {
+                    String yearSemester = rs.getString("yearSemester");
+                    if (!yearSemestersList.contains(yearSemester))
+                        yearSemestersList.add(yearSemester);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        }else{
+            util.Util.prln("null");
         }
         return yearSemestersList;
     }

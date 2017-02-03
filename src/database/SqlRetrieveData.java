@@ -13,16 +13,21 @@ public class SqlRetrieveData extends SqlAccess{
     }
     public ResultSet retriveData(String query){
         //get the super class rs so it can close in super class
-        openConnection();
+        //openConnection();
         ResultSet rs=getRs();
 
         try {
              rs= getStatement().executeQuery(query);
 
-        }catch (SQLException e){
+        }
+        catch (NullPointerException e){
+            
+
+        }
+        catch(SQLException e){
             System.out.println("Error:"+e.getMessage());
         }
-        closeConnection();
+        //closeConnection();
         return rs;
     }
     public ResultSet retriveWholeTable(String tableName){

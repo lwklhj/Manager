@@ -10,7 +10,7 @@ import java.sql.Date;
  */
 public class User {
     private String adminNo, school, name, email, gender, password;
-    Date birthDate;
+    private Date birthDate;
 
     public User() {
 

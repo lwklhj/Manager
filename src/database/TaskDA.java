@@ -62,7 +62,7 @@ public class TaskDA {
                 
                 String customTitle = rs.getString("title") + "@" + rs.getString("location");
                 
-                taskArrayList.add(new Task(customTitle, null, rs.getInt("dueTime"), null, null, null));
+                taskArrayList.add(new Task(customTitle, null, rs.getTime("dueTime"), null, null, null));
             }
         } catch (SQLException e) {
             e.printStackTrace();

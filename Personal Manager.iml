@@ -10,15 +10,6 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/library/jfoenix.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/library/mail.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -29,6 +20,15 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/library/mysql-connector-java-5.1.40-bin.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/library/jfoenix.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

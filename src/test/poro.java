@@ -10,9 +10,7 @@ import java.sql.SQLException;
  */
 public class poro {
     public static void main(String[] args) {
-        String s="hello my butt'y";
-        s=s.replace("'","''");
-        System.out.println("SELECT subject,sender,sentDate,cc,content FROM email WHERE adminNo="+"160244j");
+
 
     }
 }
