@@ -1,21 +1,31 @@
 package game.screen;
 
-import game.base.BaseObject;
-import game.base.GameScreen;
-import game.base.Player;
-import game.base.Rect;
+import game.base.*;
+import game.util.SystemConfiguration;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by hehef on 2017/1/21.
  */
 public class MainScreen extends GameScreen{
+    private int score;
+    private int groundHeight=80;
     private Player player;
-    private ArrayList<BaseObject> objects=new ArrayList<>();
-    private int time;
-    private int maxTime=100;
+    private int minY;
+    private int maxY;
+
+    private ArrayList<Pipe> pipeList =new ArrayList<>();
+    private ArrayList<Ground> groudList=new ArrayList<>();
+
+    private Image playerImage;
+    private Image backgroundImage;
+    private Image groundImage;
+    private Text scoreText;
 
     public MainScreen(double width, double height) {
         super(width, height);
@@ -23,40 +33,74 @@ public class MainScreen extends GameScreen{
 
     @Override
     public  void initiation() {
-        player=new Player(50,(int)(getWidth()/2),50,50);
+        player=new Player(50,(int)(getWidth()/2),50,50,playerImage);
         player.setScene(getParent().getScene());
 
+        //init ground
+        int numOfGround=SystemConfiguration.getStageWidth()/50+1;
+        int x=0;
 
+        int y=SystemConfiguration.getStageHeight()-groundHeight;
+        int width=50;
+        for(int i=0;i<numOfGround;i++){
+            Ground ground=new Ground(x,y,width,groundHeight,groundImage);
+            groudList.add(ground);
+            x+=width;
+        }
+        scoreText=new Text("0");
+        minY=100;
+        maxY=SystemConfiguration.getStageHeight()-100;
 
+        //init pipe
+        int pipeX=SystemConfiguration.getStageWidth();
+        int pipeY=getRandom();
+        for(int i=0;i<2;i++){
+            Pipe bottom=new Pipe(pipeX,pipeY,80,SystemConfiguration.getStageHeight()-pipeY);
 
+            //Pipe top=new Pipe(pipeX,pipeY,80,);
+
+            pipeList.add(bottom);
+            pipeList.add(top);
+
+        }
     }
 
     @Override
     protected void loadContent() {
+        playerImage=new Image(getClass().getResource("../../image/user.png").toString(),true);
+        backgroundImage=new Image(getClass().getResource("../../image/gamebackground.png").toString(),true);
+        groundImage=new Image(getClass().getResource("../../image/stage_ground.png").toString(),true);
+
+
+
+
+
 
     }
 
     @Override
     protected void update(long currentTime) {
-        time++;
-        if(time>maxTime){
-            time=0;
-            int topHeight=rand(60,223);
-            int bottomHeight=373-100-topHeight;
-            objects.add(new Rect((int)getWidth(),topHeight,100,topHeight));
-            objects.add(new Rect((int)getWidth(),bottomHeight,100,bottomHeight));
+        scoreText.setText(""+score);
 
-        }
 
         player.update(currentTime);
-        for(BaseObject obj:objects){
+        for(BaseObject obj: pipeList){
             obj.update(currentTime);
             if(obj.isInterset(player)){
-                System.out.print("interset");
+                //stop();
             }
-            if(obj.getPosX()+obj.getWidth()<=0){
-                objects.remove(obj);
+            if(obj.getX()+obj.getWidth()<=0){
+                pipeList.remove(obj);
 
+            }
+        }
+        for(Ground g:groudList){
+            g.update(currentTime);
+            if(g.getX()+g.getWidth()<=0){
+                g.setX(SystemConfiguration.getStageWidth());
+            }
+            if(g.isInterset(player)){
+                player.setY(SystemConfiguration.getStageHeight()-groundHeight-player.getHeight());
             }
         }
 
@@ -65,17 +109,23 @@ public class MainScreen extends GameScreen{
 
     @Override
     protected void draw(GraphicsContext gc) {
-        player.draw(gc);
-        for(BaseObject obj:objects){
-            obj.draw(gc);
 
+        gc.drawImage(backgroundImage,0,0, SystemConfiguration.getStageWidth(),SystemConfiguration.getStageHeight()-groundHeight);
+        for(Ground g:groudList) g.draw(gc);
+
+        //back object in first
+        player.draw(gc);
+        for(BaseObject obj: pipeList){
+            obj.draw(gc);
         }
 
 
     }
-    private int rand(int min,int max){
-        return (int)(Math.random()*(max-min)+min);
+    private int getRandom(){
+        return ThreadLocalRandom.current().nextInt(minY, maxY + 1);
+
     }
+
 
 
 

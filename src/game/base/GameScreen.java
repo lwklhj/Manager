@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
@@ -25,8 +26,9 @@ public abstract class GameScreen extends Canvas{
 
     public GameScreen(double width,double height){
         super(width,height);
-        initTimeLine();
         loadContent();
+        initTimeLine();
+
         //initiation();
     }
     private void initTimeLine(){

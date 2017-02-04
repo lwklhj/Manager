@@ -21,6 +21,7 @@ import game.util.SystemConfiguration;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import util.MusicPlayer;
@@ -34,10 +35,12 @@ public class test extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         Group group=new Group();
-        Scene  scene=new Scene(group,SystemConfiguration.getWidth(),SystemConfiguration.getHeight());
-        MainScreen ms=new MainScreen(SystemConfiguration.getWidth(),SystemConfiguration.getHeight());
+        Scene  scene=new Scene(group,SystemConfiguration.getStageWidth(),SystemConfiguration.getStageHeight());
+        MainScreen ms=new MainScreen(SystemConfiguration.getStageWidth(),SystemConfiguration.getStageHeight());
         group.getChildren().add(ms);
+
         ms.start();
         ms.initiation();
 

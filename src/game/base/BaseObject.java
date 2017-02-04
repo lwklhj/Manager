@@ -11,74 +11,94 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public abstract class BaseObject {
 
-    protected int width;
-    protected int height;
-    protected int posX;
-    protected int posY;
+    protected DoubleProperty width;
+    protected DoubleProperty height;
+    protected DoubleProperty x;
+    protected DoubleProperty y;
+
 
 
     public BaseObject() {
-        this.width = 0;
-        this.height = 0;
-        this.posX = 0;
-        this.posY = 0;
+        width=new SimpleDoubleProperty(0);
+        height=new SimpleDoubleProperty(0);
+        x=new SimpleDoubleProperty(0);
+        y=new SimpleDoubleProperty(0);
 
     }
 
-    public BaseObject(int posX, int posY, int width, int height) {
-        this.width = width;
-        this.height = height;
-        this.posX = posX;
-        this.posY = posY;
+    public BaseObject(double x, double y, double width, double height) {
+        this.width=new SimpleDoubleProperty(width);
+        this.height=new SimpleDoubleProperty(height);
+        this.x=new SimpleDoubleProperty(x);
+        this.y=new SimpleDoubleProperty(y);
     }
     public abstract void draw(GraphicsContext gc);
     public abstract void update(long currentTime);
     public boolean isInterset(BaseObject obj){
-        if(posX+ width>obj.getPosX()&& getPosX()<obj.getPosX()+obj.getWidth()&&
-                posY+ height>obj.getPosY()&& posY<obj.getPosY()+obj.getHeight())
+        if(getX()+ getWidth()>obj.getX()&& getX()<obj.getX()+obj.getWidth()&&
+               getY()+ getHeight()>obj.getY()&& getY()<obj.getY()+obj.getHeight())
             return true;
         return false;
     }
-    public void moveXPos(int x){
-        posX+=x;
+    public void moveX(int x){
+        setX(getX()+x);
+
+
 
     }
-    public void moveYPos(double y){
-        posY+=y;
+    public void moveY(double y){
+        setY(getY()+y);
+
 
     }
     //getter setter
 
 
-    public int getWidth() {
+    public double getWidth() {
+        return width.get();
+    }
+
+    public DoubleProperty widthProperty() {
         return width;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
+    public void setWidth(double width) {
+        this.width.set(width);
     }
 
-    public int getHeight() {
+    public double getHeight() {
+        return height.get();
+    }
+
+    public DoubleProperty heightProperty() {
         return height;
     }
 
-    public void setHeight(int height) {
-        this.height = height;
+    public void setHeight(double height) {
+        this.height.set(height);
     }
 
-    public int getPosX() {
-        return posX;
+    public double getX() {
+        return x.get();
     }
 
-    public void setPosX(int posX) {
-        this.posX = posX;
+    public DoubleProperty xProperty() {
+        return x;
     }
 
-    public int getPosY() {
-        return posY;
+    public void setX(double x) {
+        this.x.set(x);
     }
 
-    public void setPosY(int posY) {
-        this.posY = posY;
+    public double getY() {
+        return y.get();
+    }
+
+    public DoubleProperty yProperty() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y.set(y);
     }
 }

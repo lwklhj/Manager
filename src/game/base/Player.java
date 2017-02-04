@@ -31,15 +31,15 @@ public class Player extends BaseObject {
     public Player() {
     }
 
-    public Player(int posX,int posY,int width, int height) {
+    public Player(int posX,int posY,int width, int height,Image image) {
         super( posX, posY,width, height);
-        image=new Image(getClass().getResource("../../image/user.png").toString(),true);
+        this.image=image;
 
     }
 
     @Override
     public void draw(GraphicsContext gc) {
-        gc.drawImage(image, getPosX(), getPosY(), getWidth(), getHeight());
+        gc.drawImage(image, getX(), getY(), getWidth(), getHeight());
 
     }
 
@@ -62,7 +62,7 @@ public class Player extends BaseObject {
         }
         //double height=0.5*gravity*framePerSec*framePerSec+speed*framePerSec;
         //System.out.println(height);
-        posY+=verticalSpeed;
+        moveY(verticalSpeed);
     }
 
     public void setScene(Scene scene) {
@@ -72,16 +72,16 @@ public class Player extends BaseObject {
     private void onKeyPressed(KeyEvent event){
         switch(event.getCode()){
             case RIGHT:
-                moveXPos(5);
+                moveX(5);
                 break;
             case LEFT:
-                moveXPos(-1);
+                moveX(-1);
                 break;
             case UP:
-                moveYPos(-1);
+                moveY(-1);
                 break;
             case DOWN:
-                moveYPos(+1);
+                moveY(+1);
                 break;
             case SPACE:
                 verticalSpeed=upSpeed;

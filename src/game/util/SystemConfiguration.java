@@ -6,16 +6,16 @@ import javafx.geometry.Point2D;
  * Created by hehef on 2017/1/21.
  */
 public class SystemConfiguration {
-    public static int getWidth() {
-        return width;
+    public static int getStageWidth() {
+        return stageWidth;
     }
 
-    public static int getHeight() {
-        return height;
+    public static int getStageHeight() {
+        return stageHeight;
     }
 
-    private static int width=480;
-    private static int height=800;
+    private static int stageWidth=400;
+    private static int stageHeight=600;
 
 
 }

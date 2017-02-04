@@ -8,23 +8,23 @@ import javafx.scene.paint.Color;
 /**
  * Created by hehef on 2017/1/21.
  */
-public class Rect extends BaseObject {
-    public Rect() {
+public class Pipe extends BaseObject {
+    public Pipe() {
     }
 
-    public Rect(int posX, int posY, int width, int height) {
+    public Pipe(int posX, int posY, int width, int height) {
         super(posX, posY, width, height);
     }
 
     @Override
     public void draw(GraphicsContext gc) {
         gc.setFill(Color.AQUA);
-        gc.fillRect(getPosX(), getPosY(), getWidth(), getHeight());
+        gc.fillRect(getX(), getY(), getWidth(), getHeight());
     }
 
     @Override
     public void update(long currentTime) {
-        moveXPos(-1);
+        moveX(-1);
 
 
     }
