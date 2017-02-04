@@ -51,10 +51,11 @@ public class NoteController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         retrieveGroupFolder();
-        retrieveNote(currentGroup);
+
 
         currentGroup=groupArr.get(0);
-        System.out.println(currentGroup);
+        retrieveNote(currentGroup);
+
     }
 
 
@@ -95,10 +96,10 @@ public class NoteController implements Initializable{
         SqlRetrieveData r = new SqlRetrieveData();
         r.openConnection();
 
-        ResultSet rs = r.retriveWholeTable("groupFolder");
+        ResultSet rs = r.retriveWholeTable("groupfolder");
         groupArr.clear();
         try {
-            if(rs.next()) {
+            if(rs!=null) {
                 while (rs.next()) {
                     groupArr.add(rs.getString("groupName"));
                 }
