@@ -270,7 +270,7 @@ public class EmailController implements Initializable{
     private void retriveMail(){
         if(isSynchronize==false) {
             //to get user id and password
-           /* TextField nameField=new TextField();
+            TextField nameField=new TextField();
             nameField.setPromptText("Name");
             PasswordField passField=new PasswordField();
             passField.setPromptText("Password");
@@ -315,8 +315,8 @@ public class EmailController implements Initializable{
             Scene scene=new Scene(vb);
             Stage stage=new Stage();
             stage.setScene(scene);
-            stage.showAndWait();*/
-            RetriveEmail re = new RetriveEmail("160244J", "2ohrvblh");
+            stage.showAndWait();
+            RetriveEmail re = new RetriveEmail(nameField.getText(), passField.getText());
             re.openConnection();
             try {
                 inboxMessages = FXCollections.observableArrayList(re.retriveEmail());//wrap it in observable arraylist
