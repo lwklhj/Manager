@@ -8,11 +8,11 @@ import javafx.scene.paint.Color;
 /**
  * Created by hehef on 2017/1/21.
  */
-public class Pipe extends BaseObject {
-    public Pipe() {
+public class TopPipe extends BaseObject {
+    public TopPipe() {
     }
 
-    public Pipe(int posX, int posY, int width, int height) {
+    public TopPipe(int posX, int posY, int width, int height) {
         super(posX, posY, width, height);
     }
 
@@ -25,7 +25,6 @@ public class Pipe extends BaseObject {
     @Override
     public void update(long currentTime) {
         moveX(-1);
-
 
     }
 }

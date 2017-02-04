@@ -18,14 +18,16 @@ public class MainScreen extends GameScreen{
     private Player player;
     private int minY;
     private int maxY;
+    private int pipeGap=100;
 
-    private ArrayList<Pipe> pipeList =new ArrayList<>();
+    private ArrayList<BaseObject> pipeList =new ArrayList<>();
     private ArrayList<Ground> groudList=new ArrayList<>();
 
     private Image playerImage;
     private Image backgroundImage;
     private Image groundImage;
     private Text scoreText;
+    private int topPipeWidth;
 
     public MainScreen(double width, double height) {
         super(width, height);
@@ -48,19 +50,22 @@ public class MainScreen extends GameScreen{
             x+=width;
         }
         scoreText=new Text("0");
+
+
         minY=100;
-        maxY=SystemConfiguration.getStageHeight()-100;
+        maxY=SystemConfiguration.getStageHeight()-200;
 
         //init pipe
         int pipeX=SystemConfiguration.getStageWidth();
-        int pipeY=getRandom();
         for(int i=0;i<2;i++){
-            Pipe bottom=new Pipe(pipeX,pipeY,80,SystemConfiguration.getStageHeight()-pipeY);
+            TopPipe top=new TopPipe(pipeX,0,80,getRandom());
+           // BottomPipe bottom=new TopPipe((int)top.getX(),(int)top.getHeight()+pipeGap,80,SystemConfiguration.getStageHeight()-groundHeight+30);
+            pipeX+=250;
 
             //Pipe top=new Pipe(pipeX,pipeY,80,);
-
-            pipeList.add(bottom);
             pipeList.add(top);
+            //pipeList.add(bottom);
+
 
         }
     }
@@ -84,16 +89,9 @@ public class MainScreen extends GameScreen{
 
 
         player.update(currentTime);
-        for(BaseObject obj: pipeList){
-            obj.update(currentTime);
-            if(obj.isInterset(player)){
-                //stop();
-            }
-            if(obj.getX()+obj.getWidth()<=0){
-                pipeList.remove(obj);
 
-            }
-        }
+
+
         for(Ground g:groudList){
             g.update(currentTime);
             if(g.getX()+g.getWidth()<=0){
@@ -111,13 +109,14 @@ public class MainScreen extends GameScreen{
     protected void draw(GraphicsContext gc) {
 
         gc.drawImage(backgroundImage,0,0, SystemConfiguration.getStageWidth(),SystemConfiguration.getStageHeight()-groundHeight);
-        for(Ground g:groudList) g.draw(gc);
+
 
         //back object in first
         player.draw(gc);
         for(BaseObject obj: pipeList){
             obj.draw(gc);
         }
+        for(Ground g:groudList) g.draw(gc);
 
 
     }

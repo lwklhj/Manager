@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.NewGroupController">
+   <children>
+      <AnchorPane prefHeight="96.0" prefWidth="600.0" style="-fx-background-color: #3f51b5;">
+         <children>
+            <Label alignment="CENTER" prefHeight="96.0" prefWidth="284.0" style="-fx-font-size: 24;" stylesheets="@../../../../Manager-master/src/fonts/AMDRTG.css" text="New Group" textFill="WHITE">
+               <font>
+                  <Font name="Arial Bold Italic" size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Label layoutX="29.0" layoutY="200.0" text="Group Name:">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="enteredGroupName" layoutX="183.0" layoutY="192.0" prefHeight="47.0" prefWidth="312.0" promptText="group name" />
+      <Button fx:id="confirm" layoutX="378.0" layoutY="343.0" mnemonicParsing="false" onAction="#confirm" prefHeight="31.0" prefWidth="90.0" style="-fx-background-color: #3f51b5;" stylesheets="@../../../../Manager-master/src/fonts/Roboto-Light.css" text="Confirm" textFill="WHITE" />
+      <Button fx:id="cancel" layoutX="495.0" layoutY="343.0" mnemonicParsing="false" onAction="#cancel" prefHeight="31.0" prefWidth="90.0" style="-fx-background-color: #3f51b5;" stylesheets="@../../../../Manager-master/src/fonts/Roboto-Light.css" text="Cancel" textFill="WHITE" />
+   </children>
+</AnchorPane>
