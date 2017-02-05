@@ -63,6 +63,8 @@ public class Player extends BaseObject {
         //double height=0.5*gravity*framePerSec*framePerSec+speed*framePerSec;
         //System.out.println(height);
         moveY(verticalSpeed);
+        if(getY()<=0) setY(0);
+
     }
 
     public void setScene(Scene scene) {

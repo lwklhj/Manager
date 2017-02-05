@@ -1,28 +1,29 @@
 package game.base;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
 
 /**
- * Created by hehef on 4/2/2017.
+ * Created by hehef on 5/2/2017.
  */
-public class BottomPipe extends BaseObject{
+public class BottomPipe extends BaseObject {
+    private Image image;
     public BottomPipe() {
     }
 
-    public BottomPipe(int posX, int posY, int width, int height) {
-        super(posX, posY, width, height);
+    public BottomPipe(double x, double y, double width, double height,Image image) {
+        super(x, y, width, height);
+        this.image=image;
     }
 
     @Override
     public void draw(GraphicsContext gc) {
-        gc.setFill(Color.DARKGREEN);
-        gc.fillRect(getX(), getY(), getWidth(), getHeight());
+        gc.drawImage(image,getX(), getY(), getWidth(), getHeight());
+
     }
 
     @Override
     public void update(long currentTime) {
         moveX(-1);
-
     }
 }

@@ -14,24 +14,24 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="917.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.TaskListController">
-   <children>
-      <SplitPane layoutX="83.0" layoutY="81.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="917.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Button layoutX="775.0" layoutY="111.0" mnemonicParsing="false" onAction="#addTask" style="-fx-background-color: #607D8B;" text="Add Task" textFill="WHITE" />
-            <Pane prefHeight="92.0" prefWidth="917.0" style="-fx-background-color: #607D8B;">
-               <children>
-                   
-                                    <Label layoutX="360.0" layoutY="31.0" text="Personal Task" textFill="WHITE">
-                     <font>
-                        <Font size="26.0" />
-                     </font>
-                  </Label>
-               </children>
-            </Pane>
-            <ListView fx:id="listContent" layoutX="55.0" layoutY="151.0" prefHeight="492.0" prefWidth="807.0" />
-            <ComboBox fx:id="chooseTask" layoutX="55.0" layoutY="111.0" onAction="#handleButtonAction" prefWidth="150.0" promptText="Choose task" />
-         </children>
-      </AnchorPane>
-   </children>
+    <children>
+        <SplitPane layoutX="83.0" layoutY="81.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="672.0" prefWidth="917.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Button layoutX="775.0" layoutY="111.0" mnemonicParsing="false" onAction="#addTask" style="-fx-background-color: #607D8B;" text="Add Task" textFill="WHITE" />
+                <Pane prefHeight="92.0" prefWidth="917.0" style="-fx-background-color: #607D8B;">
+                    <children>
+
+                        <Label layoutX="360.0" layoutY="31.0" text="Personal Task" textFill="WHITE">
+                            <font>
+                                <Font size="26.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+                <ListView fx:id="listContent" layoutX="55.0" layoutY="151.0" prefHeight="492.0" prefWidth="807.0" />
+                <ComboBox fx:id="chooseTask" layoutX="55.0" layoutY="111.0" onAction="#handleButtonAction" prefWidth="150.0" promptText="Choose task" />
+            </children>
+        </AnchorPane>
+    </children>
 </AnchorPane>

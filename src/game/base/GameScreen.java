@@ -5,6 +5,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -20,6 +21,7 @@ public abstract class GameScreen extends Canvas{
     protected Scene currentScene;
     private Timeline timeline;
     private KeyFrame keyFrame;
+    protected Group group;
     private Duration duration=Duration.seconds(0.017);//1 sec =1000 millis ,for 1sec 60 frame 16 appro 17
                                                         //0.03update every 30ms
     //AnimationTimer loop;
@@ -71,5 +73,9 @@ public abstract class GameScreen extends Canvas{
 
     public void setCurrentScene(Scene currentScene) {
         this.currentScene = currentScene;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }

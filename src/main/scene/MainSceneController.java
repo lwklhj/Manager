@@ -5,18 +5,25 @@ import database.TaskDA;
 import database.UserDA;
 import entity.Calendar;
 import entity.User;
+import game.screen.MainScreen;
+import game.util.SystemConfiguration;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.ResultSet;
@@ -94,6 +101,30 @@ public class MainSceneController implements Initializable{
     void gpaClick(ActionEvent event) throws IOException {
         content.getChildren().setAll((AnchorPane)FXMLLoader.load(getClass().getResource("gpaCalculator.fxml")));
         util.Util.prln("click");
+    }
+    @FXML
+    void gameClick(ActionEvent event) {
+        Group group=new Group();
+        Scene  scene=new Scene(group, SystemConfiguration.getStageWidth(),SystemConfiguration.getStageHeight());
+        MainScreen ms=new MainScreen(SystemConfiguration.getStageWidth(),SystemConfiguration.getStageHeight());
+        group.getChildren().add(ms);
+        ms.setGroup(group);
+        ms.start();
+        ms.initiation();
+
+
+
+        Stage stage=new Stage();
+        scene.setFill(Color.BLACK);
+        stage.setScene(scene);
+        //music
+        String path=new File("src/media/Flappy Bird Theme Song.mp3").getAbsolutePath();
+        Media media=new Media(new File(path).toURI().toString());
+        MediaPlayer mediaPlayer=new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        stage.showAndWait();
+        mediaPlayer.stop();
     }
 
     @FXML

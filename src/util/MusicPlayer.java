@@ -17,9 +17,6 @@ import java.io.File;
 public class MusicPlayer {
     public MusicPlayer(){
         String path=new File("src/media/xiao.mp3").getAbsolutePath();
-        System.out.print(path);
-
-
         Media media=new Media(new File(path).toURI().toString());
 
 

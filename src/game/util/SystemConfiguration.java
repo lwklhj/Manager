@@ -14,7 +14,7 @@ public class SystemConfiguration {
         return stageHeight;
     }
 
-    private static int stageWidth=400;
+    private static int stageWidth=500;
     private static int stageHeight=600;
 
 

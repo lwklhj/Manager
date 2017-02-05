@@ -114,7 +114,7 @@ public class TaskListController implements Initializable {
         data.closeConnection();
         try {
 
-                //System.out.println("process");
+            //System.out.println("process");
             while (rs.next()) {
                 Task task = new Task();
                 task.setTitle(rs.getString("title"));
@@ -131,7 +131,7 @@ public class TaskListController implements Initializable {
 
 
 
-       // listContent.setItems(personalList);
+        // listContent.setItems(personalList);
     }
     private void showContectMenu(int index){
         //System.out.println(listContent.getSelectionModel().getSelectedItems());
