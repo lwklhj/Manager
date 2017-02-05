@@ -52,6 +52,7 @@ public class MainSceneController implements Initializable{
         // Set SceneSelector.fxml to a FXMLLoader and set a controller to the FXMLLoader
         fxmlLoader = new FXMLLoader(getClass().getResource("SceneSelector.fxml"));
         fxmlLoader.setController(this);
+
     }
 
     private Parent loadSceneFile(String fileName) throws  IOException{
@@ -100,7 +101,7 @@ public class MainSceneController implements Initializable{
     @FXML
     void gpaClick(ActionEvent event) throws IOException {
         content.getChildren().setAll((AnchorPane)FXMLLoader.load(getClass().getResource("gpaCalculator.fxml")));
-        util.Util.prln("click");
+
     }
     @FXML
     void gameClick(ActionEvent event) {
@@ -125,6 +126,23 @@ public class MainSceneController implements Initializable{
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         stage.showAndWait();
         mediaPlayer.stop();
+    }
+    @FXML
+    void musicClick(ActionEvent event) {
+        Stage stage=new Stage();
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("MusicPlayer.fxml"));
+            Scene scene=new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+            System.out.println("showmusic");
+        }catch (IOException e){
+            System.out.println(e.getMessage());
+
+        }
+
+
+
     }
 
     @FXML
@@ -153,5 +171,9 @@ public class MainSceneController implements Initializable{
 
         taskCounter.setText(taskDA.getTotalTasksCounter() + " tasks remaining");
         calendarCounter.setText(taskDA.getTodayTasksCounter(date) + " tasks due today");
+    }
+
+    public void setContent(AnchorPane content) {
+        this.content.getChildren().setAll(content);
     }
 }

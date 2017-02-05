@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -41,17 +42,23 @@ public class LoginController implements Initializable {
     @FXML
     void login(ActionEvent event) throws SQLException {
         if(userDA.checkLogin(nameTextField.getText(), passTextField.getText()) == true){
-            Parent p = null;
+            FXMLLoader loader=new FXMLLoader(getClass().getResource("MainScene.fxml"));
             try {
-                p = FXMLLoader.load(getClass().getResource("MainScene.fxml"));
+                Parent root=loader.load();
+                MainSceneController controller=loader.<MainSceneController>getController();
+                FXMLLoader sceneSelectLoader=new FXMLLoader(getClass().getResource("SceneSelector.fxml"));
+                sceneSelectLoader.setController(controller);
+                controller.setContent((AnchorPane)sceneSelectLoader.load());
+                Stage stage=(Stage)((Node)event.getTarget()).getScene().getWindow();
+                Scene scene=new Scene(root);
+                stage.hide();
+                stage.setScene(scene);
+                stage.show();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Stage stage=(Stage)((Node)event.getTarget()).getScene().getWindow();
-            Scene scene=new Scene(p);
-            stage.hide();
-            stage.setScene(scene);
-            stage.show();
+
 
         }
         else {
