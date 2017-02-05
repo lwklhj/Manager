@@ -2,6 +2,8 @@ package main.scene;
 
 import database.SqlDeleteData;
 import database.SqlRetrieveData;
+import database.UserDA;
+import entity.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -30,6 +32,7 @@ import javafx.stage.WindowEvent;
  * Created by lerai on 12/7/2016.
  */
 public class TaskListController implements Initializable {
+    private User user;
 
     private ResultSet rs;
     private ObservableList<Task> personalList = FXCollections.observableArrayList();
@@ -39,8 +42,6 @@ public class TaskListController implements Initializable {
 
     @FXML
     private ComboBox  chooseTask1;
-
-   // private enum state {PERSONAL, SCHOOL,WORK}
 
     private String currentState ;
 
@@ -58,9 +59,11 @@ public class TaskListController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        user= UserDA.user;
+
 
         chooseTask.getItems().addAll("Personal","School","Work");
-        chooseTask1.getItems().addAll("OOPP","IP networking","Law of IT");
+
 
 
         personalList.addListener(new ListChangeListener<Task>() {
@@ -106,19 +109,20 @@ public class TaskListController implements Initializable {
         SqlRetrieveData data= new SqlRetrieveData();
         data.openConnection();
 
-        rs=data.retriveData("select * from task where type = \""+type+"\"");
+
+        rs=data.retriveData(String.format("select * from task where type = '%s' AND adminNO = '%s'",type,user.getAdminNo()));
         data.closeConnection();
         try {
-            while(rs.next()){
+
+                //System.out.println("process");
+            while (rs.next()) {
                 Task task = new Task();
                 task.setTitle(rs.getString("title"));
                 task.setLocation(rs.getString("location"));
                 task.setPriority(rs.getString("priority"));
                 task.setDueDate(rs.getDate("dueDate"));
                 task.setDueTime(rs.getTime("dueTime"));
-
                 personalList.add(task);
-
 
             }
         } catch (SQLException e) {
@@ -126,10 +130,11 @@ public class TaskListController implements Initializable {
         }
 
 
+
        // listContent.setItems(personalList);
     }
     private void showContectMenu(int index){
-        System.out.println(listContent.getSelectionModel().getSelectedItems());
+        //System.out.println(listContent.getSelectionModel().getSelectedItems());
         ContextMenu contextMenu=new ContextMenu();
         contextMenu.setOnShowing(new EventHandler<WindowEvent>() {
             @Override

@@ -12,6 +12,7 @@ public class SqlRetrieveData extends SqlAccess{
 
     }
     public ResultSet retriveData(String query){
+        System.out.println(query);
         //get the super class rs so it can close in super class
         //openConnection();
         ResultSet rs=getRs();

@@ -132,7 +132,7 @@ public class CreateAccountController implements Initializable {
                 genderGroup.getSelectedToggle().getUserData().toString(),         //gender
                 Date.valueOf(birthDateText),                                     //date in sql.Date format
                 passwordField.getText(),                                        //pass
-                adminNoField.getText(),                                        //adminNo
+                adminNoField.getText().toUpperCase(),                                        //adminNo
                 emailField.getText(),                                         //email
                 school.getValue() + "");                               //school
         user.storeData();

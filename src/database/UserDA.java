@@ -1,6 +1,8 @@
 package database;
 
 import entity.User;
+import javafx.scene.control.Alert;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -9,29 +11,33 @@ import java.sql.SQLException;
  */
 public class UserDA {
     private SqlRetrieveData sqlRetriveData = new SqlRetrieveData();
-    private static User user;
+    public static User user;
     private ResultSet rs;
 
     
     public boolean checkLogin(String adminNo, String password) {
         sqlRetriveData.openConnection();
+        adminNo=adminNo.toUpperCase();
         String sqlQuery = "SELECT school, name, email, gender FROM user WHERE adminNo='"+adminNo+"' AND password='"+password+"' ";
         rs = sqlRetriveData.retriveData(sqlQuery);
         try {
-            if(!rs.next()) {
-                sqlRetriveData.closeConnection();
-                System.out.println("Login unsuccessful");
-                return false;
-            }
-            else{
+            if(rs.next()) {
                 user = new User(adminNo, rs.getString("school"), rs.getString("name"), rs.getString("email"), rs.getString("gender"));
+                sqlRetriveData.closeConnection();
+                //System.out.println("Login unsuccessful");
+                return true;
             }
-        } catch (SQLException e) {
+        }catch (NullPointerException e){
+            Alert alert=new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("OH,NOOOOOOOOOOOOOOOOOOOOOOO");
+            alert.setContentText("Server or Internet is DEAD,PLease SUPPORT THE DEVELOPER by CALL 1383838438");
+            alert.show();
+        }catch (SQLException e) {
             e.printStackTrace();
         }
         sqlRetriveData.closeConnection();
-        System.out.println("Login successful");
-        return true;
+        //System.out.println("Login successful");
+        return false;
     }
 
     

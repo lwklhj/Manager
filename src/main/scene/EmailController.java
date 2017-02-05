@@ -3,6 +3,7 @@ package main.scene;
 import database.SqlDeleteData;
 import database.SqlRetrieveData;
 
+import database.UserDA;
 import email.RetriveEmail;
 import entity.*;
 import javafx.collections.FXCollections;
@@ -38,7 +39,7 @@ import java.util.Calendar;
  * Created by hehef on 12/6/2016.
  */
 public class EmailController implements Initializable{
-    User user;
+    private User user;
     @FXML
     private ListView<String> listView;//for display in ui
     ////for email from inbox of official server,only display title
@@ -62,6 +63,10 @@ public class EmailController implements Initializable{
     private ArrayList<Date> dateForListRetrive=new ArrayList<Date>();
     private ArrayList<Integer> dateStartIndex=new ArrayList<Integer>();
     private int currButIndex;
+    private String password;
+    private String adminNo;
+    private boolean passSet=false;
+
 
     @FXML
     private ToolBar dateSelectorBar;
@@ -79,8 +84,8 @@ public class EmailController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        user=new User();
-        user.setAdminNo("160244J");
+        user= UserDA.user;
+
         listView.setOnMouseClicked(events -> setIndex());
 
 
@@ -269,64 +274,74 @@ public class EmailController implements Initializable{
     //email get and init button bar
     private void retriveMail(){
         if(isSynchronize==false) {
-            //to get user id and password
-            TextField nameField=new TextField();
-            nameField.setPromptText("Name");
-            PasswordField passField=new PasswordField();
-            passField.setPromptText("Password");
-            passField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-                @Override
-                public void handle(KeyEvent event) {
-                    if(event.getCode()== KeyCode.ENTER) {
-                        //get current window
-                        if(nameField.getText().equals("")||passField.getText().equals("")){
-                            Alert alert=new Alert(Alert.AlertType.ERROR);
+            if(passSet==false) {
+                //to get user id and password
+                TextField nameField = new TextField();
+                nameField.setPromptText("admin Number");
+                PasswordField passField = new PasswordField();
+                passField.setPromptText("Password");
+                passField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent event) {
+                        if (event.getCode() == KeyCode.ENTER) {
+                            //get current window
+                            if (nameField.getText().equals("") || passField.getText().equals("")) {
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setContentText("empty password or username");
+                                alert.show();
+                            } else {
+                                Stage stage = (Stage) passField.getScene().getWindow();
+                                stage.close();
+                            }
+
+                        }
+                    }
+                });
+                Button btn = new Button("ok");
+                btn.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (nameField.getText().equals("") || passField.getText().equals("")) {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
                             alert.setContentText("empty password or username");
                             alert.show();
-                        }
-                        else {
-                            Stage stage = (Stage) passField.getScene().getWindow();
+                        } else {
+                            Stage stage = (Stage) btn.getScene().getWindow();
                             stage.close();
                         }
 
                     }
-                }
-            });
-            Button btn=new Button("ok");
-            btn.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    if(nameField.getText().equals("")||passField.getText().equals("")){
-                        Alert alert=new Alert(Alert.AlertType.ERROR);
-                        alert.setContentText("empty password or username");
-                        alert.show();
-                    }
-                    else {
-                        Stage stage = (Stage) btn.getScene().getWindow();
-                        stage.close();
-                    }
-
-                }
-            });
-            //tempory solution as i alway
-            //get mail username and pass
-            VBox vb=new VBox();
-            vb.getChildren().addAll(nameField,passField,btn);
-            Scene scene=new Scene(vb);
-            Stage stage=new Stage();
-            stage.setScene(scene);
-            stage.showAndWait();
-            RetriveEmail re = new RetriveEmail(nameField.getText(), passField.getText());
-            re.openConnection();
-            try {
-                inboxMessages = FXCollections.observableArrayList(re.retriveEmail());//wrap it in observable arraylist
-            }catch (NullPointerException e){
-                util.Util.prln(e.getMessage());
+                });
+                //tempory solution as i alway
+                //get mail username and pass
+                VBox vb = new VBox();
+                vb.getChildren().addAll(nameField, passField, btn);
+                Scene scene = new Scene(vb);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.showAndWait();
+                password = passField.getText();
+                adminNo = nameField.getText();
 
             }
-            isSynchronize=true;
+            if(password.equals("")==false&&adminNo.equals("")==false) {
+                passSet=true;
+                RetriveEmail re = new RetriveEmail(adminNo, password);
+                re.openConnection();
+                try {
+                    inboxMessages = FXCollections.observableArrayList(re.retriveEmail());//wrap it in observable arraylist
+                    isSynchronize = true;
+                    initDateSelectBar();
+                } catch (NullPointerException e) {
+                    passSet = false;
+                    util.Util.prln(e.getMessage());
+
+                }
+            }
+
+
         }
-        initDateSelectBar();
+
 
     }
 
