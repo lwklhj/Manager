@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -18,24 +19,31 @@
    <children>
       <HBox layoutX="138.0" layoutY="200.0" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane prefHeight="632.0" prefWidth="109.0">
+            <AnchorPane prefHeight="656.0" prefWidth="109.0">
                <children>
-                  <VBox layoutX="30.0" layoutY="77.0" prefHeight="632.0" prefWidth="119.0" style="-fx-background-color: #eaebed;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox layoutX="30.0" layoutY="6.0" prefHeight="666.0" prefWidth="109.0" style="-fx-background-color: #eaebed;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="6.0">
                      <children>
-                        <ToggleButton fx:id="importantButton" mnemonicParsing="false" onAction="#important" prefHeight="50.0" prefWidth="120.0" text="Important">
+                        <ToggleButton id="menuSelect" fx:id="importantButton" mnemonicParsing="false" onAction="#important" prefHeight="48.0" prefWidth="109.0" text="Important">
                            <toggleGroup>
                               <ToggleGroup fx:id="topic" />
                            </toggleGroup></ToggleButton>
-                        <ToggleButton fx:id="inboxButton" mnemonicParsing="false" onAction="#inbox" prefHeight="50.0" prefWidth="120.0" text="Inbox" toggleGroup="$topic" />
-                        <ToggleButton fx:id="startSynchron" mnemonicParsing="false" onAction="#startSynchron" prefHeight="50.0" prefWidth="120.0" text="startSynchron" toggleGroup="$topic" />
+                        <ToggleButton id="menuSelect" fx:id="inboxButton" mnemonicParsing="false" onAction="#inbox" prefHeight="50.0" prefWidth="120.0" text="Inbox" toggleGroup="$topic" />
+                        <ToggleButton id="menuSelect" fx:id="startSynchron" mnemonicParsing="false" onAction="#startSynchron" prefHeight="50.0" prefWidth="120.0" toggleGroup="$topic">
+                           <graphic>
+                              <ImageView fitHeight="48.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../image/synchronization-arrows.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></ToggleButton>
                      </children>
                   </VBox>
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="672.0" prefWidth="808.0">
                <children>
-                  <ListView fx:id="listView" layoutY="76.0" prefHeight="595.0" prefWidth="808.0" />
-                  <ToolBar fx:id="dateSelectorBar" layoutX="12.0" layoutY="14.0" prefHeight="50.0" prefWidth="785.0" />
+                  <ListView fx:id="listView" layoutX="9.0" layoutY="76.0" prefHeight="595.0" prefWidth="785.0" />
+                  <ToolBar fx:id="dateSelectorBar" layoutX="9.0" layoutY="6.0" prefHeight="69.0" prefWidth="785.0" style="-fx-background-color: #225E7F;" />
                </children>
             </AnchorPane>
          </children>

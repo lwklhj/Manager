@@ -106,7 +106,7 @@ public class EmailController implements Initializable{
             case INBOX:
                 index=currentInboxButtonIndex-listView.getSelectionModel().getSelectedIndex();
                 System.out.println(currentInboxButtonIndex+" "+listView.getSelectionModel().getSelectedIndex()+" "+index);
-               break;
+                break;
             case IMPORTANT:
                 index=importantMessages.size()-1-listView.getSelectionModel().getSelectedIndex();
 
@@ -231,7 +231,7 @@ public class EmailController implements Initializable{
         inboxButton.setSelected(true);
         currentState= State.IMPORTANT;
 
-     }
+    }
 
 
     //get all message subject from message to list and display it
@@ -265,7 +265,7 @@ public class EmailController implements Initializable{
         displayList.clear();
         if(emails!=null) {
             for (int i = emails.size() - 1; i >= 0; i--) {
-                    displayList.add(emails.get(i).getSubject());
+                displayList.add(emails.get(i).getSubject());
             }
             listView.setItems(displayList);
         }
@@ -331,7 +331,7 @@ public class EmailController implements Initializable{
                 try {
                     inboxMessages = FXCollections.observableArrayList(re.retriveEmail());//wrap it in observable arraylist
                     isSynchronize = true;
-                    initDateSelectBar();
+
                 } catch (NullPointerException e) {
                     passSet = false;
                     util.Util.prln(e.getMessage());
@@ -341,6 +341,7 @@ public class EmailController implements Initializable{
 
 
         }
+        if(inboxMessages!=null) initDateSelectBar();
 
 
     }
@@ -387,7 +388,7 @@ public class EmailController implements Initializable{
             //for email body
             Object messageContent=message.getContent();
             if(messageContent instanceof String){
-               buffer.append(messageContent.toString());
+                buffer.append(messageContent.toString());
 
             }else if(messageContent instanceof Multipart) {
                 Multipart multipart=(Multipart)messageContent;
@@ -414,7 +415,7 @@ public class EmailController implements Initializable{
 
         System.out.println("type content "+contentType);
         if(part.isMimeType("text/plain")){
-           // System.out.println("text/plain");
+            // System.out.println("text/plain");
             buffer.append(part.getContent().toString());
 
         }else if(part.isMimeType("text/html")){
@@ -422,7 +423,7 @@ public class EmailController implements Initializable{
             buffer.append(part.getContent().toString());
 
         }else if(part.isMimeType("multipart/*")){
-           // System.out.println("multipart/*");
+            // System.out.println("multipart/*");
             Multipart multipart=(Multipart)part.getContent();
             for(int i=0;i<multipart.getCount();i++){
                 getMailContent(multipart.getBodyPart(i),buffer);
@@ -457,13 +458,18 @@ public class EmailController implements Initializable{
             ;*/
 
             //use tocalculate only this week
-            firstDateOfWeek.set(Calendar.DAY_OF_WEEK,calendar.getFirstDayOfWeek()+1);
+            //the calendar first day of week is sunday,if get this sunday must -7 to get last week sunday date and +1 for this week monday
+            int dayOfweek=calendar.getFirstDayOfWeek();
+            if(dayOfweek==1){
+                dayOfweek+=1;
+                firstDateOfWeek.add(Calendar.DATE,-7);
+            }
+            firstDateOfWeek.set(Calendar.DAY_OF_WEEK,dayOfweek);
             firstDateOfWeek.set(Calendar.HOUR_OF_DAY,0);
-            firstDateOfWeek.set(Calendar.MILLISECOND, 0);
-            firstDateOfWeek.set(Calendar.SECOND, 0);
-            /*firstDateOfWeek.set(Calendar.HOUR, 0);
             firstDateOfWeek.set(Calendar.MINUTE, 0);
-            firstDateOfWeek.set(Calendar.SECOND, 0);*/
+            firstDateOfWeek.set(Calendar.SECOND, 0);
+            //System.out.println(firstDateOfWeek.getTime());
+
 
             for(int i=startIndex;i>=0;i--){
 
@@ -474,7 +480,7 @@ public class EmailController implements Initializable{
 
                     calendar.setTime(inboxMessages.get(i).getSentDate());
                     calendar.set(Calendar.HOUR_OF_DAY,0);
-                    calendar.set(Calendar.MILLISECOND, 0);
+                    calendar.set(Calendar.MINUTE, 0);
                     calendar.set(Calendar.SECOND, 0);
                     startIndex=i;
                     if(inboxMessages.get(i).getSentDate().before(firstDateOfWeek.getTime())) {
@@ -486,9 +492,9 @@ public class EmailController implements Initializable{
             ToggleButton lastWeekButton=new ToggleButton("Last Week");
             firstDateOfWeek.add(Calendar.DAY_OF_WEEK,-7);
             firstDateOfWeek.set(Calendar.HOUR_OF_DAY,0);
-            firstDateOfWeek.set(Calendar.MILLISECOND, 0);
+            firstDateOfWeek.set(Calendar.MINUTE, 0);
             firstDateOfWeek.set(Calendar.SECOND, 0);
-            System.out.println("first date of last week "+firstDateOfWeek.getTime().toString());
+           //System.out.println("first date of last week "+firstDateOfWeek.getTime().toString());
             for(int i=startIndex;i>=0;i--){
                 if(inboxMessages.get(i).getSentDate().before(firstDateOfWeek.getTime())) {
                     addButtonToDateSelectBar(lastWeekButton,startIndex,i+1);
@@ -497,7 +503,7 @@ public class EmailController implements Initializable{
                 }
             }
 
-            ToggleButton olderButton=new ToggleButton("older");
+            ToggleButton olderButton=new ToggleButton("Older");
             addButtonToDateSelectBar(olderButton,startIndex,0);
 
             ToggleButton allButton=new ToggleButton("All");
@@ -511,7 +517,10 @@ public class EmailController implements Initializable{
     private void addButtonToDateSelectBar(ToggleButton btn,int startIndex,int endIndex){
         btn.setPrefWidth(90);
         btn.setToggleGroup(toolBarGroup);
-        btn.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, new CornerRadii(20), new BorderWidths(1))));
+        btn.setId("dateSelect");
+        //btn.setStyle("-fx-border-color: white");
+        btn.setStyle("-fx-text-fill:white;;");
+        btn.setBorder(new Border(new BorderStroke(Color.WHITE, BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(1))));
         btn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -522,8 +531,6 @@ public class EmailController implements Initializable{
         });
         dateSelectorBar.getItems().add(0,btn);
     }
-
-
     public void setUser(User user){
         this.user=user;
     }

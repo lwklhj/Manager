@@ -2,9 +2,18 @@
  -fx-background-color:transparent;
 
 }
-.toggle-button:selected{
+.menuSelect:selected{
 -fx-background-color: #607d8b;
 -fx-text-fill:white;
 -fx-effect: dropshadow(three-pass-box, black, 10, 0, 0, 0)
+
+}
+.dateSelect{
+-fx-text-fill:white;
+}
+.dateSelect:selected{
+-fx-background-color: #3697CB;
+-fx-text-fill:white;;
+
 
 }

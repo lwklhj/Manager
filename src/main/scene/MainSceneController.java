@@ -127,7 +127,7 @@ public class MainSceneController implements Initializable{
         stage.showAndWait();
         mediaPlayer.stop();
     }
-    @FXML
+    /*@FXML
     void musicClick(ActionEvent event) {
         Stage stage=new Stage();
         try {
@@ -143,7 +143,7 @@ public class MainSceneController implements Initializable{
 
 
 
-    }
+    }*/
 
     @FXML
     void logoutClick(ActionEvent event) throws IOException {
