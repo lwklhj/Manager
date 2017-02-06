@@ -10,20 +10,20 @@ import java.sql.SQLException;
  * Created by Liu Woon Kit on 12/1/2017.
  */
 public class UserDA {
-    private SqlRetrieveData sqlRetriveData = new SqlRetrieveData();
+    private SqlRetrieveData sqlRetrieveData = new SqlRetrieveData();
     public static User user;
     private ResultSet rs;
 
     
     public boolean checkLogin(String adminNo, String password) {
-        sqlRetriveData.openConnection();
+        sqlRetrieveData.openConnection();
         adminNo=adminNo.toUpperCase();
         String sqlQuery = "SELECT school, name, email, gender FROM user WHERE adminNo='"+adminNo+"' AND password='"+password+"' ";
-        rs = sqlRetriveData.retriveData(sqlQuery);
+        rs = sqlRetrieveData.retriveData(sqlQuery);
         try {
             if(rs.next()) {
                 user = new User(adminNo, rs.getString("school"), rs.getString("name"), rs.getString("email"), rs.getString("gender"));
-                sqlRetriveData.closeConnection();
+                sqlRetrieveData.closeConnection();
                 //System.out.println("Login unsuccessful");
                 return true;
             }
@@ -35,7 +35,7 @@ public class UserDA {
         }catch (SQLException e) {
             e.printStackTrace();
         }
-        sqlRetriveData.closeConnection();
+        sqlRetrieveData.closeConnection();
         //System.out.println("Login successful");
         return false;
     }

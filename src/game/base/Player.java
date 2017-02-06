@@ -1,6 +1,7 @@
 package game.base;
 
 
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
@@ -97,7 +98,7 @@ public class Player extends BaseObject {
 
     public void setScene(Scene scene) {
         this.scene = scene;
-        //scene.setOnKeyPressed(event -> onKeyPressed(event));
+        scene.setOnKeyPressed(event -> onKeyPressed(event));
         scene.setOnMouseClicked(event -> onMouseClick(event));
     }
     private void onMouseClick(Event e){
@@ -121,7 +122,7 @@ public class Player extends BaseObject {
                 moveY(+1);
                 break;
             case SPACE:
-
+                onMouseClick(new ActionEvent());
                 break;
 
         }
