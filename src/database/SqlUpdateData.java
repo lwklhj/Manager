@@ -33,5 +33,15 @@ public class SqlUpdateData extends SqlAccess {
         }
 
     }
+    public void update(String query){
+        Statement statement=getStatement();
+        try {
+
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }

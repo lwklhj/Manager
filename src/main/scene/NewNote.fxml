@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -16,26 +15,16 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.NewNoteController">
    <children>
-      <AnchorPane prefHeight="96.0" prefWidth="1024.0" style="-fx-background-color: #3f51b5;">
+      <AnchorPane fx:id="pinButt" prefHeight="96.0" prefWidth="1024.0" style="-fx-background-color: #E91E63;">
          <children>
-            <Button id="userIcon" fx:id="userIcon" layoutX="926.0" layoutY="14.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="66.0" style="-fx-background-color: transparent;">
+            <Button fx:id="unpinned" layoutX="945.0" layoutY="20.0" mnemonicParsing="false" onAction="#pinPressed" prefHeight="55.0" prefWidth="65.0" style="-fx-background-color: transparent;">
                <graphic>
-                  <ImageView id="userIcon" fitHeight="60.0" fitWidth="58.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="pinImage" fitHeight="43.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../Manager-master/src/image/user.png" />
+                        <Image url="@../../image/pin.png" />
                      </image>
                   </ImageView>
-               </graphic>
-            </Button>
-            <Button layoutX="825.0" layoutY="20.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="65.0" style="-fx-background-color: transparent;">
-               <graphic>
-                  <ImageView fitHeight="43.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../image/pinned.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
+               </graphic></Button>
             <Button fx:id="saveButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#save" prefHeight="68.0" prefWidth="59.0" style="-fx-background-color: transparent;">
                <graphic>
                   <ImageView fitHeight="49.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">

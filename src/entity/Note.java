@@ -2,6 +2,7 @@ package entity;
 
 import database.DataBase;
 import database.SqlStoreData;
+import database.UserDA;
 
 import java.sql.SQLException;
 
@@ -9,6 +10,7 @@ import java.sql.SQLException;
  * Created by 2e3cr on 20/1/2017.
  */
 public class Note implements DataBase{
+    private String adminNo = new UserDA().getUser().getAdminNo();
 
     private String group;
     private String title;
@@ -65,7 +67,7 @@ public class Note implements DataBase{
         int val=0;
         if(isPined) val=1;
         try {
-            update.insertData(String.format("insert into note value(\"%s\",\"%s\",\"%s\",%d)",group,title,content,val));
+            update.insertData(String.format("insert into note value(\"%s\",\"%s\",\"%s\",%d,\"%s\")",group,title,content,val, adminNo));
         } catch (SQLException e) {
             e.printStackTrace();
         }
