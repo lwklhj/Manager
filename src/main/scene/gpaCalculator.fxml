@@ -6,8 +6,12 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="672.0" prefWidth="917.0" style="-fx-background-color: #eceff1;" stylesheets="@gpaCalculator.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.scene.gpaCalculatorController">
    <children>
-      <Label layoutX="22.0" layoutY="14.0" stylesheets="@../../fonts/Roboto-Light.css" text="Overall GPA" />
-      <Label fx:id="overallGPA" layoutX="45.0" layoutY="45.0" stylesheets="@../../fonts/AMDRTG.css" text="placeholder" />
+      <AnchorPane prefHeight="75.0" prefWidth="917.0" style="-fx-background-color: #607D8B;">
+         <children>
+            <Label layoutX="407.0" layoutY="8.0" style="-fx-font-size: 20px; -fx-text-fill: #ffffff;" stylesheets="@../../fonts/Roboto-Light.css" text="Overall GPA" />
+            <Label fx:id="overallGPA" layoutX="419.0" layoutY="33.0" style="-fx-font-size: 20px; -fx-text-fill: #ffffff;" stylesheets="@../../fonts/AMDRTG.css" text="placeholder" />
+         </children>
+      </AnchorPane>
       <ScrollPane fitToWidth="true" layoutX="75.0" layoutY="119.0" prefHeight="503.0" prefWidth="155.0">
         <content>
             <VBox fx:id="selectorPanel" />
@@ -27,7 +31,7 @@
             <Button layoutX="508.0" layoutY="574.0" mnemonicParsing="false" onAction="#addModule" text="Add" />
             <ComboBox fx:id="yearComboBox" layoutX="50.0" layoutY="27.0" prefHeight="31.0" prefWidth="103.0" style="-fx-min-width: 103px;" stylesheets="@../../fonts/Roboto-Light.css" />
             <Label layoutX="313.0" layoutY="32.0" stylesheets="@../../fonts/Roboto-Light.css" text="Interim GPA:" />
-            <Label fx:id="interimGPA" layoutX="403.0" layoutY="28.0" stylesheets="@../../fonts/AMDRTG.css" text="placeholder" />
+            <Label fx:id="interimGPA" layoutX="403.0" layoutY="28.0" style="-fx-font-size: 18px;" stylesheets="@../../fonts/AMDRTG.css" text="placeholder" />
             <HBox layoutX="8.0" layoutY="66.0" prefHeight="8.0" prefWidth="610.0" style="-fx-background-color: #607d8b;">
                <children>
                   <Label alignment="CENTER" prefHeight="21.0" prefWidth="194.0" style="-fx-text-fill: #ffffff;" text="Module" />

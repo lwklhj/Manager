@@ -98,11 +98,11 @@ public class CreateAccountController implements Initializable {
         }
         boolean checkPass=true;
         String year=yearField.getText();
-        String day=yearField.getText();
+        String day=dayField.getText();
         if(year.isEmpty()|| Pattern.matches("[a-zA-Z]+",year)||year.length()>4){
             checkPass=false;
         }
-        if(day.isEmpty()|| Pattern.matches("[a-zA-Z]+",day)||day.length()>2){
+        if(day.isEmpty()|| Pattern.matches("[a-zA-Z]+",day)||day.length()>2||day.length()<2){
             checkPass=false;
         }
 
@@ -118,17 +118,20 @@ public class CreateAccountController implements Initializable {
         }
 
 
-        if(!(adminNoField.getText().length() == 7)) {
+        if((adminNoField.getText().length() > 7)||adminNoField.getText().length()<7) {
             adminNoError.setVisible(true);
+            System.out.println("length");
             checkPass=false;
         }
         else if (!adminNoField.getText().substring(0, 6).matches("[0-9]+")) {
-                adminNoError.setVisible(true);
-                checkPass=false;
+            adminNoError.setVisible(true);
+            System.out.println("number");
+            checkPass=false;
         }
 
         else if (!(Character.isLetter(adminNoField.getText().charAt(6)))) {
-                adminNoError.setVisible(true);
+            adminNoError.setVisible(true);
+            System.out.println("last letter");
             checkPass=false;
         }
         if(checkPass) {

@@ -62,7 +62,9 @@ public class TaskListController implements Initializable {
         user= UserDA.user;
 
 
-        chooseTask.getItems().addAll("Personal","School","Work");
+        chooseTask.getItems().addAll("All", "Personal","School","Work");
+        chooseTask.getSelectionModel().select(0);
+
 
 
 
@@ -82,6 +84,7 @@ public class TaskListController implements Initializable {
             }
         });
         listContent.setOnMouseClicked(event -> showContectMenu(listContent.getSelectionModel().getSelectedIndex()));
+        retrieveData("All");
         //retrieveData();
 
     }
@@ -108,9 +111,13 @@ public class TaskListController implements Initializable {
         //System.out.println(personalList.size());
         SqlRetrieveData data= new SqlRetrieveData();
         data.openConnection();
+        if(type.equals("All")) {
+            rs=data.retriveData(String.format("select * from task where adminNO = '%s'",user.getAdminNo()));
+        }
 
-
-        rs=data.retriveData(String.format("select * from task where type = '%s' AND adminNO = '%s'",type,user.getAdminNo()));
+        else {
+            rs = data.retriveData(String.format("select * from task where type = '%s' AND adminNO = '%s'", type, user.getAdminNo()));
+        }
         data.closeConnection();
         try {
 

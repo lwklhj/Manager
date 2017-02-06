@@ -130,6 +130,8 @@ public class MainSceneController implements Initializable{
 
         Stage stage=new Stage();
         scene.setFill(Color.BLACK);
+        stage.setResizable(false);
+        stage.sizeToScene();
         stage.setScene(scene);
         //music
         String path=new File("src/media/Flappy Bird Theme Song.mp3").getAbsolutePath();
