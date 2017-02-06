@@ -1,5 +1,7 @@
 package game.base;
 
+
+import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -22,6 +24,8 @@ public class Player extends BaseObject {
 
     private double gravity=9.8;
     private double framePerSec= Duration.seconds(0.017).toSeconds();
+    private enum STATE{UP,CENTER,DOWN};
+    private STATE currentState;
 
 
 
@@ -34,17 +38,39 @@ public class Player extends BaseObject {
     public Player(int posX,int posY,int width, int height,Image image) {
         super( posX, posY,width, height);
         this.image=image;
+        currentState=STATE.CENTER;
 
     }
 
     @Override
     public void draw(GraphicsContext gc) {
-        gc.drawImage(image, getX(), getY(), getWidth(), getHeight());
+        switch (currentState){
+            case UP:
+                gc.save();
+                gc.rotate(0.5);
+                gc.drawImage(image, getX(), getY(), getWidth(), getHeight());
+
+
+                break;
+            case CENTER:
+
+                gc.drawImage(image, getX(), getY(), getWidth(), getHeight());
+                break;
+            case DOWN:
+                gc.save();
+                gc.rotate(0.5);
+
+                gc.drawImage(image, getX(), getY(), getWidth(), getHeight());
+                break;
+
+        }
+        gc.restore();
 
     }
 
     @Override
     public void update(long currentTime) {
+
 
 
         //当前速度 = 初始速度 + 加速度 x dt
@@ -63,13 +89,22 @@ public class Player extends BaseObject {
         //double height=0.5*gravity*framePerSec*framePerSec+speed*framePerSec;
         //System.out.println(height);
         moveY(verticalSpeed);
+
         if(getY()<=0) setY(0);
+        currentState=STATE.DOWN;
 
     }
 
     public void setScene(Scene scene) {
         this.scene = scene;
-        scene.setOnKeyPressed(event -> onKeyPressed(event));
+        //scene.setOnKeyPressed(event -> onKeyPressed(event));
+        scene.setOnMouseClicked(event -> onMouseClick(event));
+    }
+    private void onMouseClick(Event e){
+        verticalSpeed=upSpeed;
+        currentState=STATE.UP;
+
+
     }
     private void onKeyPressed(KeyEvent event){
         switch(event.getCode()){
@@ -86,7 +121,7 @@ public class Player extends BaseObject {
                 moveY(+1);
                 break;
             case SPACE:
-                verticalSpeed=upSpeed;
+
                 break;
 
         }
