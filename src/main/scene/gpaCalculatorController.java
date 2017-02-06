@@ -18,26 +18,20 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-import static java.lang.Double.parseDouble;
-
 /**
  * Created by Liu Woon Kit on 20/1/2017.
  */
 public class gpaCalculatorController implements Initializable{
     private int currentYear = new Calendar().getCurrentYear();
     private GpaDA gpaDA = new GpaDA();
-    private ArrayList<String> yearSemestersList = gpaDA.getYearSemestersList();
+    private ArrayList<String> yearSemestersList;
     private ArrayList<Module> moduleArrayList;
-    private String selectedYearSemester;
-
-    
-    
-
-    
-    
 
     @FXML
-    private Label totalGPA;
+    Label interimGPA;
+
+    @FXML
+    private Label overallGPA;
 
     @FXML
     private VBox selectorPanel;
@@ -54,31 +48,35 @@ public class gpaCalculatorController implements Initializable{
     @FXML
     private ComboBox semesterComboBox;
 
-    
+    // Starting things
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+        // Set ComboBox items
         semesterComboBox.getItems().addAll("S1", "S2");
         for(int i = 0; i < 6; i++)
             yearComboBox.getItems().add(currentYear - i);
 
         yearSemesterSelector();
-        totalGPA.setText(gpaDA.calculateTotalGPA() + "");
+        overallGPA.setText(String.format("%.2f",gpaDA.calculateTotalGPA()));
     }
 
-    
+    // Shows UI for picking a yearSemester
     public void yearSemesterSelector() {
+        clearPanel(selectorPanel);
+        yearSemestersList = gpaDA.getYearSemestersList();
         for(String s : yearSemestersList) {
-            Button yearSemesterBtn = new Button(s);
+            if(!s.substring(0, 4).equals("null")) {
+                Button yearSemesterBtn = new Button(s);
 
-            yearSemesterBtn.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    yearSemesterViewer(s);
-                }
-            });
+                yearSemesterBtn.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        yearSemesterViewer(s);
+                    }
+                });
 
-            selectorPanel.getChildren().add(yearSemesterBtn);
+                selectorPanel.getChildren().add(yearSemesterBtn);
+            }
         }
 
         Button addYearSemesterBtn = new Button("+");
@@ -92,8 +90,11 @@ public class gpaCalculatorController implements Initializable{
         selectorPanel.getChildren().add(addYearSemesterBtn);
     }
 
-    
+    // Shows the UI for what stored modules are in a particular year yearSemester
     public void yearSemesterViewer(String yearSemester) {
+
+        // Set interimGPA counter
+        interimGPA.setText(String.format("%.2f",gpaDA.calculateInterimGPA(yearSemester)));
 
         if(yearSemester != null) {
             yearComboBox.getSelectionModel().select(yearSemester.substring(0, 4));
@@ -102,16 +103,20 @@ public class gpaCalculatorController implements Initializable{
             if(yearSemester.substring(4, 6).equals("S1"))
                 semesterComboBox.getSelectionModel().select(0);
         }
+        else {
+            yearComboBox.getSelectionModel().clearSelection();
+            yearComboBox.setValue(null);
+            semesterComboBox.getSelectionModel().clearSelection();
+        }
 
-        
-        clearPanel();
-        
+        // Wipe existing HBoxes if any
+        clearPanel(modulesPanel);
+        // Change display pane to visible
         ysDisplayPane.setVisible(true);
 
         moduleArrayList = gpaDA.getModules(yearSemester);
 
-
-        
+        // Create new HBox (and append it to the VBox) for every module in the ArrayList
         for(Module m : moduleArrayList) {
             HBox tempHBox = new HBox();
             modulesPanel.getChildren().add(tempHBox);
@@ -125,48 +130,57 @@ public class gpaCalculatorController implements Initializable{
                 }
             });
 
-            tempHBox.getChildren().addAll(m.getModuleNameField(), m.getModuleMaxCreditField(), m.getGradeObtainedField(), deleteModuleBtn);
+            tempHBox.getChildren().addAll(m.getModuleNameField(), m.getModuleMaxCreditComboBox(), m.getGradeObtainedComboBox(), deleteModuleBtn);
         }
     }
 
     @FXML
     void addModule() {
-        
+        // Safe existing modules
         updateYearSemesterModules();
 
-        
+        // Get values from ComboBoxes
         String selectedYearSemester = yearComboBox.getValue() + "" + semesterComboBox.getValue();
 
-        
-        gpaDA.storeGPARecord(selectedYearSemester, "NULL", 0.0, "F");
+        // Create blank module
+        gpaDA.storeGPARecord(selectedYearSemester, "Enter Name Here", 0.0, "F");
 
-        
+        // Refresh display to see added entity
         yearSemesterViewer(selectedYearSemester);
     }
 
     @FXML
     void updateYearSemesterModules() {
 
-        
+        // update modules with their own current TextFields values
         for(Module m : moduleArrayList) {
             m.setModuleName(m.getModuleNameFieldText());
-            m.setModuleMaxCredit(parseDouble(m.getModuleMaxCreditFieldText()));
-            m.setGradeObtained(m.getGradeObtainedFieldText());
+            m.setModuleMaxCredit(m.getModuleMaxCreditComboBoxValue());
+            m.setGradeObtained(m.getGradeObtainedComboBoxValue());
         }
 
-        
+        // Get values from ComboBoxes to get the yearSemester
         String selectedYearSemester = yearComboBox.getValue() + "" + semesterComboBox.getValue();
 
-        
+        // Give objects to the DA
         gpaDA.updateGPARecords(moduleArrayList, selectedYearSemester);
 
-        
+        // Refresh the yearSemesterSelector
+        yearSemesterSelector();
+
+        // Refresh GPA counter
+        overallGPA.setText(String.format("%.2f",gpaDA.calculateTotalGPA()));
+
+        // Refresh interim GPA counter
+        interimGPA.setText(String.format("%.2f",gpaDA.calculateInterimGPA(selectedYearSemester)));
+
+        // Debug
         System.out.println("Updated!");
     }
 
-    public void clearPanel() {
-        
-        modulesPanel.getChildren().clear();
+    public void clearPanel(VBox vBox) {
+        // Wipe children objects from pane
+        vBox.getChildren().clear();
     }
 
 }

@@ -1,5 +1,6 @@
 package main.scene;
 
+import database.GpaDA;
 import database.SqlRetrieveData;
 import database.TaskDA;
 import database.UserDA;
@@ -7,6 +8,7 @@ import entity.Calendar;
 import entity.User;
 import game.screen.MainScreen;
 import game.util.SystemConfiguration;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,24 +49,35 @@ public class MainSceneController implements Initializable{
     @FXML
     private Label calendarCounter;
 
+    @FXML
+    private Label gpaCounter;
+
     @Override
     public void initialize(URL location, ResourceBundle resources){
         // Set SceneSelector.fxml to a FXMLLoader and set a controller to the FXMLLoader
         fxmlLoader = new FXMLLoader(getClass().getResource("SceneSelector.fxml"));
         fxmlLoader.setController(this);
-
     }
 
-    private Parent loadSceneFile(String fileName) throws  IOException{
-        Parent p=FXMLLoader.load(getClass().getResource(fileName));
+    private Parent loadSceneFile(String fileName) {
+        Parent p= null;
+        try {
+            p = FXMLLoader.load(getClass().getResource(fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return p;
     }
 
     @FXML
-    void homeClick(ActionEvent event) throws IOException{
+    void homeClick(ActionEvent event) {
         //FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SceneSelector.fxml"));
         //fxmlLoader.setController(this);
-        content.getChildren().setAll((AnchorPane)fxmlLoader.load());
+        try {
+            content.getChildren().setAll((AnchorPane)fxmlLoader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         updaterCounters();
     }
 
@@ -80,7 +93,7 @@ public class MainSceneController implements Initializable{
 
     @FXML
     void noteClick(ActionEvent event) throws IOException{
-        content.getChildren().setAll((AnchorPane)FXMLLoader.load(getClass().getResource("Note.fxml")));
+        new SecondaryScene("Note.fxml", "Note", false);
     }
 
     @FXML
@@ -90,7 +103,7 @@ public class MainSceneController implements Initializable{
 
     @FXML
     void timerClick(ActionEvent event) throws IOException{
-        content.getChildren().setAll((AnchorPane)FXMLLoader.load(getClass().getResource("PomodoroTimer.fxml")));
+        new SecondaryScene("PomodoroTimer.fxml", "Timer", false);
     }
 
     @FXML
@@ -146,7 +159,7 @@ public class MainSceneController implements Initializable{
     }*/
 
     @FXML
-    void logoutClick(ActionEvent event) throws IOException {
+    void logoutClick(ActionEvent event) {
         //Wipe old user data
         new UserDA().userLogout();
 
@@ -157,7 +170,7 @@ public class MainSceneController implements Initializable{
         stage.close();
 
         // Prepare stage
-        Parent p = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        Parent p = loadSceneFile("Login.fxml");
         stage.setScene(new Scene(p));
 
         //Show the stage
@@ -167,10 +180,12 @@ public class MainSceneController implements Initializable{
     public void updaterCounters() {
         Calendar cal = new Calendar();
         TaskDA taskDA = new TaskDA();
+        GpaDA gpaDA = new GpaDA();
         String date = cal.arrangeDate(cal.getCurrentYear(), cal.getCurrentMonth() + 1, cal.getCurrentDay());
 
         taskCounter.setText(taskDA.getTotalTasksCounter() + " tasks remaining");
         calendarCounter.setText(taskDA.getTodayTasksCounter(date) + " tasks due today");
+        gpaCounter.setText(String.format("%.2f", gpaDA.calculateTotalGPA()) + " Cumulative GPA");
     }
 
     public void setContent(AnchorPane content) {

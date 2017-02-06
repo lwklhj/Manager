@@ -11,14 +11,12 @@ import java.util.ArrayList;
  * Created by Liu Woon Kit on 20/1/2017.
  */
 public class TaskDA {
-    
     private String adminNo = new UserDA().getUser().getAdminNo();
 
     private int totalTasksCounter;
     private int todayTasksCounter;
 
     private SqlRetrieveData sqlRetrieveData = new SqlRetrieveData();
-    private SqlStoreData sqlStoreData = new SqlStoreData();
     private ResultSet rs;
 
     public int getTotalTasksCounter() {
@@ -59,10 +57,8 @@ public class TaskDA {
         ResultSet rs = sqlRetrieveData.retriveData(sqlQuery);
         try {
             while(rs.next()) {
-                
                 String customTitle = rs.getString("title") + "@" + rs.getString("location");
-                
-                taskArrayList.add(new Task(customTitle, null, rs.getTime("dueTime"), null, null, null,null));
+                taskArrayList.add(new Task(customTitle, null, rs.getTime("dueTime"), null, null, null, null));
             }
         } catch (SQLException e) {
             e.printStackTrace();

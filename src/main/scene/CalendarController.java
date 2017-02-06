@@ -1,6 +1,7 @@
 package main.scene;
 
 import database.CalendarDA;
+import database.TaskDA;
 import entity.Calendar;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,24 +13,28 @@ import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import static database.UserDA.user;
 
 /**
  * Created by Liu Woon Kit on 1/12/2016.
  */
 public class CalendarController extends MainSceneController implements Initializable {
-    
+    // Prepare UI elements for the table
     private Label[] daysLabel = new Label[7];
     private Button[] daysButton = new Button[31];
     private Button[] monthButton = new Button[12];
     private Button[] yearButton = new Button[49];
 
-    
+    // Get attributes from Calendar class
     protected static Calendar cal = new Calendar();
     private String[] dayOfWeek = cal.getDayOfWeek();
     private String[] monthOfYear = cal.getMonthOfYear();
 
-    
+    // Set default mode to DayPicker
     private String selectedMode = "DayPicker";
 
     @FXML
@@ -66,52 +71,10 @@ public class CalendarController extends MainSceneController implements Initializ
         clearGrid();
         modeDisplay.setText(cal.getStringDate());
 
-        
+        //Set days labels
         for (int u = 0; u < 7; u++) {
             calGrid.add(daysLabel[u] = new Label(dayOfWeek[u]), u, 0);
         }
-
-        
-        
-        /*for(int i = 0, x = 1, y = 0; i < 42; i++) {
-            if(y > 6) {
-                y = 0;
-                x++;
-            }
-            calGrid.add(daysButton[i] = new Button(), y, x);
-
-            
-            int tempIndex = i;
-            daysButton[i].setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                    if(daysButton[tempIndex].getText() == "")
-                        return;
-
-                    else {
-                        cal.setSelectedDay(parseInt(daysButton[tempIndex].getText()));
-                        try {
-                            periodicView();
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
-                    }
-
-                }
-            });
-
-            y++;
-        }
-
-        
-        for(int i = cal.getFirstDay(), j = 0; j < cal.getLastDayOfMonth(); i++) {
-            daysButton[i - 1].setText((j + 1) + "");
-            j++;
-        }*/
-
-
-        
-        
 
         for (int i = 0, x = (cal.getFirstDay() - 1), y = 1; i < cal.getLastDayOfMonth(); i++) {
             if (x > 6) {
@@ -136,8 +99,7 @@ public class CalendarController extends MainSceneController implements Initializ
             x++;
         }
 
-        displayHolidays();
-        displayTaskDays();
+        checkDays();
     }
 
     public void monthSelector() {
@@ -193,7 +155,7 @@ public class CalendarController extends MainSceneController implements Initializ
     }
 
     public void clearGrid() {
-        
+        //wipe grid of elements
         calGrid.getChildren().clear();
     }
 
@@ -208,7 +170,7 @@ public class CalendarController extends MainSceneController implements Initializ
     }
 
     public void refreshDisplay() {
-        
+        // Refreshes the display
         switch (selectedMode) {
 
             case "DayPicker":
@@ -226,30 +188,23 @@ public class CalendarController extends MainSceneController implements Initializ
         }
     }
 
-    public void displayTaskDays() {
-        /*TaskAccess taskDB = new TaskAccess();
-        for (int i = 1; i < 32; i++) {
-            ArrayList arr = null;
-            try {
-                arr = taskDB.getTask(user.getSchool(), i + "/" + cal.getSelectedMonth() + "/" + cal.getSelectedYear());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            if (arr.size() > 0) {
-                daysButton[cal.getFirstDay()].setStyle("-fx-background-color: #f44336;");
-            }
-        }*/
-    }
-
     private CalendarDA calendarDA = new CalendarDA();
 
-    private void displayHolidays() {
+    public void checkDays() {
         for (int i = 1, z = cal.getLastDayOfMonth() + 1; i < z; i++) {
             String date = cal.arrangeDate(cal.getSelectedYear(), cal.getSelectedMonth() + 1, i);
-            if (calendarDA.checkHoliday(date) == true) {
+            if (calendarDA.checkGotTask(date) == true) {
                 daysButton[i - 1].setStyle("-fx-background-color: #e91e63; -fx-text-fill: #ffffff;");
             }
+
+            if (calendarDA.checkHoliday(date) == true) {
+                daysButton[i - 1].setStyle("-fx-background-color: #009688; -fx-text-fill: #ffffff;");
+            }
+
+            if (calendarDA.checkHoliday(date) == true && calendarDA.checkGotTask(date) == true) {
+                daysButton[i - 1].setStyle("-fx-background-color: #f9a825; -fx-text-fill: #ffffff;");
+            }
+
         }
     }
-    
 }
