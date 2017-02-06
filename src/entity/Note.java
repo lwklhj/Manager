@@ -3,6 +3,8 @@ package entity;
 import database.DataBase;
 import database.SqlStoreData;
 
+import java.sql.SQLException;
+
 /**
  * Created by 2e3cr on 20/1/2017.
  */
@@ -62,7 +64,11 @@ public class Note implements DataBase{
         update.openConnection();
         int val=0;
         if(isPined) val=1;
-        update.insertData(String.format("insert into note value(\"%s\",\"%s\",\"%s\",%d)",group,title,content,val));
+        try {
+            update.insertData(String.format("insert into note value(\"%s\",\"%s\",\"%s\",%d)",group,title,content,val));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         update.closeConnection();
     }

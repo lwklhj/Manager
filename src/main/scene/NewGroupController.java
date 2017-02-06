@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -39,7 +40,11 @@ public class NewGroupController implements Initializable {
         update.openConnection();
 
         System.out.println(String.format("insert into group values(\"%s\")",enteredGroupName.getText()));
-        update.insertData(String.format("INSERT INTO groupFolder(groupName) VALUES(\"%s\")",enteredGroupName.getText()));
+        try {
+            update.insertData(String.format("INSERT INTO groupFolder(groupName) VALUES(\"%s\")",enteredGroupName.getText()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         update.closeConnection();
 

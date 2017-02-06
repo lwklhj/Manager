@@ -44,17 +44,10 @@ public class SqlStoreData extends SqlAccess{
             System.out.println("Open connection first");
         }
     }
-    public void insertData(String query) {
+    public void insertData(String query) throws SQLException {
         Statement statement=getStatement();
-        if(statement!=null){
-            try {
-                statement.executeUpdate(query);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        else{
-            System.out.println("Open connection first");
-        }
+
+        statement.executeUpdate(query);
+
     }
 }
