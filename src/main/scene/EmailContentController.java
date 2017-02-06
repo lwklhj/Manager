@@ -54,7 +54,10 @@ public class EmailContentController implements Initializable {
         this.email=email;
         displayContent();
         Rectangle rect=new Rectangle(0,0,100,100);
-        Tooltip tp= TooltipBuilder.create().text(email.getCc()).prefWidth(600).wrapText(true).build();
+        Tooltip tp=new Tooltip(email.getCc());
+        tp.setPrefWidth(500);
+        tp.setWrapText(true);
+        //Tooltip tp= TooltipBuilder.create().text(email.getCc()).prefWidth(600).wrapText(true).build();
         cc.setTooltip(tp);
     }
     public void displayContent() {
