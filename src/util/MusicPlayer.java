@@ -15,12 +15,13 @@ import java.io.File;
  * Created by hehef on 2017/1/12.
  */
 public class MusicPlayer {
+    private MediaPlayer mediaPlayer;
     public MusicPlayer(){
         String path=new File("src/media/xiao.mp3").getAbsolutePath();
         Media media=new Media(new File(path).toURI().toString());
 
 
-        MediaPlayer mediaPlayer=new MediaPlayer(media);
+        mediaPlayer=new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         MediaView mediaView=new MediaView(mediaPlayer);
@@ -53,10 +54,14 @@ public class MusicPlayer {
         Media media = new Media(new File(path).toURI().toString());
 
 
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         MediaView mediaView = new MediaView(mediaPlayer);
+    }
+
+    public void stopMusicPlayer() {
+        mediaPlayer.stop();
     }
 
 }

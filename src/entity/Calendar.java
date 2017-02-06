@@ -86,25 +86,6 @@ public class Calendar {
         return StringDate;
     }
 
-    /*public void setSelectedButton (int num) {
-        int x;
-        switch(currentMode) {
-
-            case "DayPicker":
-                x = date.get(GregorianCalendar.MONTH);
-                x += num;
-                date.set(GregorianCalendar.MONTH, x);
-                break;
-
-            case "MonthPicker":
-                x = date.get(GregorianCalendar.YEAR);
-                x += num;
-                date.set(GregorianCalendar.YEAR, x);
-                break;
-
-        }
-    }*/
-
     public String arrangeDate (int year, int month,  int day) {
         String dayTemp = day + "";
         if(day < 10)

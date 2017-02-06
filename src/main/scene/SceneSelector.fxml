@@ -36,7 +36,7 @@
                   <Label alignment="CENTER" layoutY="-2.0" prefHeight="48.0" prefWidth="156.0" style="-fx-text-fill: #ffffff; -fx-font-size: 24px;" stylesheets="@../../fonts/AMDRTG.css" text="Task" />
                   <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="156.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../image/email.png" />
+                        <Image url="@../../image/task.png" />
                      </image>
                   </ImageView>
                   <Label fx:id="taskCounter" alignment="CENTER" layoutY="46.0" prefHeight="35.0" prefWidth="156.0" style="-fx-text-fill: #ffffff;" stylesheets="@../../fonts/Roboto-Light.css" text="0 tasks remaining" />
@@ -54,7 +54,7 @@
                         <Image url="@../../image/notes.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" layoutY="46.0" prefHeight="35.0" prefWidth="156.0" style="-fx-text-fill: #ffffff;" stylesheets="@../../fonts/Roboto-Light.css" text="0 tasks remaining" />
+                  <Label alignment="CENTER" layoutY="46.0" prefHeight="35.0" prefWidth="156.0" style="-fx-text-fill: #ffffff;" stylesheets="@../../fonts/Roboto-Light.css" text="0 total notes" />
                </children>
             </AnchorPane>
          </graphic>
@@ -69,7 +69,7 @@
                         <Image url="@../../image/email.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" layoutY="46.0" prefHeight="35.0" prefWidth="156.0" style="-fx-text-fill: #ffffff;" stylesheets="@../../fonts/Roboto-Light.css" text="View Nothing" />
+                  <Label alignment="CENTER" layoutY="46.0" prefHeight="35.0" prefWidth="156.0" style="-fx-text-fill: #ffffff;" stylesheets="@../../fonts/Roboto-Light.css" text="0 E-mails" />
                </children>
             </AnchorPane>
          </graphic>
@@ -96,10 +96,10 @@
                   <Label alignment="CENTER" layoutY="-2.0" prefHeight="48.0" prefWidth="156.0" style="-fx-text-fill: #ffffff; -fx-font-size: 24px;" stylesheets="@../../fonts/AMDRTG.css" text="Gpa" />
                   <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="156.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../image/email.png" />
+                        <Image url="@../../image/gpa.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" layoutY="46.0" prefHeight="35.0" prefWidth="156.0" style="-fx-text-fill: #ffffff;" stylesheets="@../../fonts/Roboto-Light.css" text="0 tasks remaining" />
+                  <Label fx:id="gpaCounter" alignment="CENTER" layoutY="46.0" prefHeight="35.0" prefWidth="156.0" style="-fx-text-fill: #ffffff;" stylesheets="@../../fonts/Roboto-Light.css" text="0.0 GPA" />
                </children>
             </AnchorPane>
          </graphic>
@@ -118,7 +118,7 @@
                         <Image url="@../../image/gamepad.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" layoutY="46.0" prefHeight="35.0" prefWidth="156.0" style="-fx-text-fill: #ffffff;" stylesheets="@../../fonts/Roboto-Light.css" text="Angry Woon" />
+                  <Label alignment="CENTER" layoutY="46.0" prefHeight="35.0" prefWidth="156.0" style="-fx-text-fill: #ffffff;" stylesheets="@../../fonts/Roboto-Light.css" text="Flappy Bird" />
                </children>
             </AnchorPane>
          </graphic>

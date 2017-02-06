@@ -1,5 +1,6 @@
 package entity;
 
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 /**
@@ -50,9 +51,11 @@ public class Module {
         this.gradeObtained = gradeObtained;
     }
 
-    
+    // Module grade point calculation
     public double getModuleGradePoint() {
         switch(gradeObtained) {
+            case "DIST":
+                return 4.0;
             case "A":
                 return 4.0;
             case "B+":
@@ -78,33 +81,36 @@ public class Module {
     }
 
     private TextField moduleNameField;
-    private TextField moduleMaxCreditField;
-    private TextField gradeObtainedField;
-    
+    private ComboBox moduleMaxCreditComboBox = new ComboBox();
+    private ComboBox gradeObtainedComboBox = new ComboBox();
 
     public TextField getModuleNameField() {
         return moduleNameField = new TextField(moduleName);
     }
 
-    public TextField getModuleMaxCreditField() {
-        return moduleMaxCreditField = new TextField(moduleMaxCredit + "");
+    public ComboBox getModuleMaxCreditComboBox() {
+        moduleMaxCreditComboBox.getItems().addAll(5.0, 4.0, 3.0, 2.0 , 1.0);
+        moduleMaxCreditComboBox.getSelectionModel().select(moduleMaxCredit);
+        return moduleMaxCreditComboBox;
     }
 
-    public TextField getGradeObtainedField() {
-        return gradeObtainedField = new TextField(gradeObtained);
+    public ComboBox getGradeObtainedComboBox() {
+        gradeObtainedComboBox.getItems().addAll("DIST", "A", "B+", "B", "C+", "C", "D+", "D", "D-", "P", "F");
+        gradeObtainedComboBox.getSelectionModel().select(gradeObtained);
+        return gradeObtainedComboBox;
     }
 
-    
+    // Grab value from fields/combo-box
 
     public String getModuleNameFieldText() {
         return moduleNameField.getText();
     }
 
-    public String getModuleMaxCreditFieldText() {
-        return moduleMaxCreditField.getText();
+    public double getModuleMaxCreditComboBoxValue() {
+        return (double) moduleMaxCreditComboBox.getValue();
     }
 
-    public String getGradeObtainedFieldText() {
-        return gradeObtainedField.getText();
+    public String getGradeObtainedComboBoxValue() {
+        return (String) gradeObtainedComboBox.getValue();
     }
 }
