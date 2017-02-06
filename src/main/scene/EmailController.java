@@ -453,13 +453,12 @@ public class EmailController implements Initializable{
         firstDateOfCurrentWeek.set(Calendar.HOUR_OF_DAY,0);
         firstDateOfCurrentWeek.set(Calendar.MINUTE, 0);
         firstDateOfCurrentWeek.set(Calendar.SECOND, 0);
-        System.out.println(" current week first date : "+firstDateOfCurrentWeek.getTime().toString());
+
 
         try {
             calendar.setTime(inboxMessages.get(startIndex).getSentDate());
-            calendar.set(Calendar.HOUR_OF_DAY,0);
-            calendar.set(Calendar.MINUTE, 0);
-            calendar.set(Calendar.SECOND, 0);
+
+            System.out.println(calendar.getTime().toString());
 
             /*calendar.set(Calendar.HOUR, 0);
 
@@ -476,9 +475,13 @@ public class EmailController implements Initializable{
             firstDateOfWeek.set(Calendar.HOUR_OF_DAY,0);
             firstDateOfWeek.set(Calendar.MINUTE, 0);
             firstDateOfWeek.set(Calendar.SECOND, 0);
-            System.out.println("first date of week "+firstDateOfWeek.getTime());
 
-            if(calendar.getTime().after(firstDateOfCurrentWeek.getTime())) {
+            System.out.println(calendar.getTime().toString()+"     "+firstDateOfCurrentWeek.getTime().toString());
+
+            if(calendar.getTime().after(firstDateOfWeek.getTime())) {
+                calendar.set(Calendar.HOUR_OF_DAY,0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
                 for (int i = startIndex; i >= 0; i--) {
 
                     if (inboxMessages.get(i).getSentDate().before(calendar.getTime())) {
@@ -491,7 +494,7 @@ public class EmailController implements Initializable{
                         calendar.set(Calendar.MINUTE, 0);
                         calendar.set(Calendar.SECOND, 0);
                         startIndex = i;
-                        if (inboxMessages.get(i).getSentDate().before(firstDateOfWeek.getTime())) {
+                        if (inboxMessages.get(i).getSentDate().before(firstDateOfWeek.getTime())||inboxMessages.get(i).getSentDate().before(firstDateOfCurrentWeek.getTime())) {
                             break;
                         }
                     }

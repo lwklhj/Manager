@@ -54,7 +54,7 @@
                         <Image url="@../../image/notes.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" layoutY="46.0" prefHeight="35.0" prefWidth="156.0" style="-fx-text-fill: #ffffff;" stylesheets="@../../fonts/Roboto-Light.css" text="0 total notes" />
+                  <Label alignment="CENTER" layoutY="46.0" prefHeight="35.0" prefWidth="156.0" style="-fx-text-fill: #ffffff;" stylesheets="@../../fonts/Roboto-Light.css" text="1 total notes" />
                </children>
             </AnchorPane>
          </graphic>
@@ -69,7 +69,7 @@
                         <Image url="@../../image/email.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" layoutY="46.0" prefHeight="35.0" prefWidth="156.0" style="-fx-text-fill: #ffffff;" stylesheets="@../../fonts/Roboto-Light.css" text="0 E-mails" />
+                  <Label alignment="CENTER" layoutY="46.0" prefHeight="35.0" prefWidth="156.0" style="-fx-text-fill: #ffffff;" stylesheets="@../../fonts/Roboto-Light.css" text="*********" />
                </children>
             </AnchorPane>
          </graphic>

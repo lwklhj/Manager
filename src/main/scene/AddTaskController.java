@@ -68,11 +68,13 @@ public class AddTaskController implements Initializable{
     }
     @FXML
     void cancelButtonAction(ActionEvent event){
-        title.setText("");
+       /* title.setText("");
         dueDate.setValue(null);
         dueTime.setTime(null);
         location.setText("");
-        priority.getSelectionModel().clearSelection();
+        priority.getSelectionModel().clearSelection();*/
+       Stage stage=(Stage)cancel.getScene().getWindow();
+       stage.close();;
     }
     public void setType(String type) {
         this.type = type;
