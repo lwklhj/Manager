@@ -73,11 +73,15 @@ public class AddTaskController implements Initializable{
         dueTime.setTime(null);
         location.setText("");
         priority.getSelectionModel().clearSelection();*/
-       Stage stage=(Stage)cancel.getScene().getWindow();
-       stage.close();;
+        Stage stage=(Stage)cancel.getScene().getWindow();
+        stage.close();;
     }
     public void setType(String type) {
         this.type = type;
+    }
+
+    public void setDueDate(String date) {
+        dueDate.setValue(LocalDate.parse(date));
     }
 
 }

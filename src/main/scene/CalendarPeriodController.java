@@ -2,6 +2,7 @@ package main.scene;
 
 import database.TaskDA;
 import entity.Task;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -37,6 +38,12 @@ public class CalendarPeriodController extends CalendarController implements Init
     @FXML
     Label dateLabel;
 
+    @FXML
+    TableColumn taskTimeColumn;
+
+    @FXML
+    TableColumn taskDescriptionColumn;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         dateLabel.setText(cal.getSelectedDay() + " " + monthOfYear[cal.getSelectedMonth()].toLowerCase() + " " + cal.getSelectedYear());
@@ -57,20 +64,15 @@ public class CalendarPeriodController extends CalendarController implements Init
     }
 
     public void updateScreen() {
+        //eventTable.getItems().clear();
 
-        TableColumn taskTimeColumn = new TableColumn("Time");
         taskTimeColumn.setCellValueFactory(new PropertyValueFactory("dueTime"));
 
-        TableColumn taskDescriptionColumn = new TableColumn("Task");
         taskDescriptionColumn.setCellValueFactory(new PropertyValueFactory("title"));
-
-        eventTable.getColumns().addAll(taskTimeColumn, taskDescriptionColumn);
 
         eventTable.setItems(tasksList);
     }
 
-
-    // Coded by hhf from
     public void addTask() {
         Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Choose type");
@@ -97,16 +99,29 @@ public class CalendarPeriodController extends CalendarController implements Init
         try {
             Parent root=(AnchorPane)loader.load();
             AddTaskController controller=loader.getController();
-            controller.setType(type);
 
+            // Send to AddTaskController
+            controller.setType(type);
+            controller.setDueDate(cal.arrangeDate(cal.getSelectedYear(), (cal.getSelectedMonth()+1), cal.getSelectedDay()));
+
+            // Set scene to stage
             Scene scene=new Scene(root);
             stage.setScene(scene);
-            stage.showAndWait();
-            updateScreen();
+
+            stage.setOnHidden(WindowEvent -> {
+                System.out.println("Refreshed");
+                Platform.runLater(() -> {
+                    getTimeSlots();
+                    updateScreen();
+                });
+            });
+
+            // Show stage
+            stage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    // to here
 
 }
