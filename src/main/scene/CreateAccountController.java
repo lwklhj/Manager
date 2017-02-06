@@ -113,10 +113,19 @@ public class CreateAccountController implements Initializable {
             dayField.setStyle("-fx-border-color:#ff0000");
 
             checkPass=false;
+        }else {
+            int i=Integer.parseInt(day);
+            if(i>31||i<1){
+                dayField.setStyle("-fx-border-color:#ff0000");
+
+                checkPass=false;
+
+            }
         }
 
 
-        if(!String.valueOf(confirmPasswordField.getText()).equals(String.valueOf(passwordField.getText()))){
+
+        if(!String.valueOf(confirmPasswordField.getText()).equals(String.valueOf(passwordField.getText())) || confirmPasswordField.getText().isEmpty()){
             passMatchError.setVisible(true);
             checkPass=false;
 
