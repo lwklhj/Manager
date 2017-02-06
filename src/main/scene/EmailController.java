@@ -494,7 +494,7 @@ public class EmailController implements Initializable{
                         calendar.set(Calendar.MINUTE, 0);
                         calendar.set(Calendar.SECOND, 0);
                         startIndex = i;
-                        if (inboxMessages.get(i).getSentDate().before(firstDateOfWeek.getTime())||inboxMessages.get(i).getSentDate().before(firstDateOfCurrentWeek.getTime())) {
+                        if (inboxMessages.get(i).getSentDate().before(firstDateOfCurrentWeek.getTime())) {
                             break;
                         }
                     }
