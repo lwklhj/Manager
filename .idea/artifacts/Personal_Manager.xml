@@ -19,7 +19,7 @@
       <element id="file-copy" path="$PROJECT_DIR$/library/jfoenix.jar" />
       <element id="file-copy" path="$PROJECT_DIR$/library/mail.jar" />
       <element id="file-copy" path="$PROJECT_DIR$/library/mysql-connector-java-5.1.40-bin.jar" />
-      <element id="dir-copy" path="$PROJECT_DIR$/src" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src/media" />
     </root>
   </artifact>
 </component>

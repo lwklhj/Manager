@@ -118,12 +118,24 @@ public class MainSceneController implements Initializable{
     }
     @FXML
     void gameClick(ActionEvent event) {
+
         Group group=new Group();
+
         Scene  scene=new Scene(group, SystemConfiguration.getStageWidth(),SystemConfiguration.getStageHeight());
-        MainScreen ms=new MainScreen(SystemConfiguration.getStageWidth(),SystemConfiguration.getStageHeight());
-        Alert alert=new Alert(Alert.AlertType.INFORMATION);
-        alert.setHeaderText("bedore music");
-        alert.showAndWait();
+
+        //this line has problem in artifact
+        MainScreen ms=null;
+        try {
+            ms = new MainScreen(SystemConfiguration.getStageWidth(), SystemConfiguration.getStageHeight());
+        }catch (Exception e){
+            Alert a=new Alert(Alert.AlertType.INFORMATION);
+            a.setContentText(e.getMessage());
+            a.setTitle(e.getMessage());
+            a.showAndWait();
+        }
+        //MainScreen ms=new MainScreen(500,600);
+
+
         String path=new File("src/media/Flappy Bird Theme Song.mp3").getAbsolutePath();
         group.getChildren().add(ms);
         ms.setGroup(group);
@@ -136,10 +148,6 @@ public class MainSceneController implements Initializable{
         stage.sizeToScene();
         stage.setScene(scene);
         //music
-
-        Alert alertpath=new Alert(Alert.AlertType.INFORMATION);
-        alertpath.setHeaderText("get path");
-        alertpath.showAndWait();
         Media media=new Media(new File(path).toURI().toString());
         MediaPlayer mediaPlayer=new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);

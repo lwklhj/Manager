@@ -88,6 +88,12 @@ public class CreateAccountController implements Initializable {
     }
     @FXML
     void signUp(ActionEvent event) {
+        emailError.setVisible(false);
+        adminNoError.setVisible(false);
+        passMatchError.setVisible(false);
+        yearField.setStyle("-fx-border-color:#dbdbdb");
+        dayField.setStyle("-fx-border-color:#dbdbdb");
+
         //convert date to string format
         String mth="01";//set default
         try {
@@ -99,10 +105,13 @@ public class CreateAccountController implements Initializable {
         boolean checkPass=true;
         String year=yearField.getText();
         String day=dayField.getText();
-        if(year.isEmpty()|| Pattern.matches("[a-zA-Z]+",year)||year.length()>4){
+        if(year.isEmpty()|| Pattern.matches("[a-zA-Z]+",year)||year.length()>4||year.length()<4){
+            yearField.setStyle("-fx-border-color:#ff0000");
             checkPass=false;
         }
         if(day.isEmpty()|| Pattern.matches("[a-zA-Z]+",day)||day.length()>2||day.length()<2){
+            dayField.setStyle("-fx-border-color:#ff0000");
+
             checkPass=false;
         }
 
@@ -174,6 +183,9 @@ public class CreateAccountController implements Initializable {
     }
     @FXML
     void cancel(ActionEvent event){
+        Stage stage=(Stage)adminNoError.getScene().getWindow();
+        stage.close();
+
 
     }
 }
