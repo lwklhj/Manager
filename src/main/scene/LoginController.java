@@ -50,6 +50,7 @@ public class LoginController implements Initializable {
                 sceneSelectLoader.setController(controller);
                 controller.setContent((AnchorPane)sceneSelectLoader.load());
                 Stage stage=(Stage)((Node)event.getTarget()).getScene().getWindow();
+                controller.updaterCounters();
                 Scene scene=new Scene(root);
                 stage.hide();
                 stage.setScene(scene);
